@@ -1,0 +1,107 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+  gap: 16px;
+  padding: 24px;
+  background-color: #f7f9fc;
+  box-sizing: border-box;
+}
+
+/* 왼쪽 사이드바 */
+.left-side {
+  width: 350px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 메인 폼 */
+.main-body {
+  flex-grow: 1;
+  padding: 32px;
+  border-radius: 12px;
+  background-color: #fff;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.main-body form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-body input[type="text"],
+.main-body input[type="number"],
+.main-body input[type="datetime-local"],
+.main-body textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease-in-out;
+}
+
+.main-body input:focus,
+.main-body textarea:focus {
+  border-color: #6c63ff;
+  background-color: #fff;
+  outline: none;
+}
+
+.main-body textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.main-body button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.main-body button[type="reset"] {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.main-body button[type="submit"],
+.main-body button[type="button"] {
+  background-color: #6c63ff;
+  color: white;
+}
+
+.main-body button:hover {
+  opacity: 0.9;
+}
+
+.main-body div[align="center"] {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* 이벤트 폼 너비 제한 및 가운데 정렬 */
+.event-form-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}

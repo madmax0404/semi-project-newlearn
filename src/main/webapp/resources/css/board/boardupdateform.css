@@ -1,0 +1,170 @@
+html, body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.board-detail-area {
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+	padding: 32px 28px 40px 28px;
+	width: 850px;
+	min-width: 0;
+	min-height: 500px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	overflow-x: auto;
+}
+
+.board-write-form{
+	width: 75%
+}
+
+.form-group{
+	font-size: 20px;
+	margin-top: 70px;
+}
+
+.note-editable{
+	min-height: 500px;
+}
+
+.board-detail-title {
+	font-size: 3rem;
+	font-weight: bold;
+	color: rgb(52, 54, 160);
+	margin-bottom: 18px;
+	word-break: break-all;
+}
+
+.board-detail-meta {
+	display: grid;
+	grid-template-columns: 120px auto 120px auto;
+	font-size: 18px;
+	color: #666;
+	margin-bottom: 16px;
+	gap: 6px 12px;
+}
+
+.board-detail-content {
+	width: 100%;
+	font-size: 18px;
+	line-height: 1.6;
+	color: #222;
+	white-space: pre-line;
+	word-break: break-all;
+	overflow-x: auto;
+	min-height: 160px;
+	margin-bottom: 16px;
+}
+
+.board-detail-attachments img {
+	max-width: 100%; /* 부모에 맞춤, 한 줄만! */
+	border-radius: 6px;
+	margin: 12px 0 8px 0;
+	height: auto;
+}
+
+.detail-actions-row {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin-bottom: 0;
+	min-height: 48px;
+}
+
+.recommend-center {
+	flex: 1 1 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+}
+
+.detail-actions-row .recommend-btn {
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	padding: 0;
+	display: flex;
+	align-items: center;
+}
+
+.detail-actions-row .action-links {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	font-size: 15px;
+	color: #757575;
+	font-weight: 500;
+	margin-left: auto;
+}
+
+.detail-actions-row .action-links a {
+	color: #757575;
+	text-decoration: none;
+}
+
+.detail-actions-row .action-links a:hover {
+	color: #ff5252;
+}
+
+.board-detail-attachments {
+	margin-top: 16px;
+	min-height: 32px;
+}
+
+.attachment-title {
+	font-weight: bold;
+	margin-bottom: 10px;
+	color: #444;
+	font-size: 16px;
+}
+
+.attachment-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px 12px;
+}
+
+.attachment-item {
+	display: inline-block;
+	text-align: center;
+	width: 130px;
+}
+
+.submit-btn {
+	margin-top: 8px;
+	border: none;
+	border-radius: 8px;
+	padding: 8px 18px;
+	background: #696cff;
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+/* 이미지파일과 일반파일 아이콘 모두 똑같은 스타일로! */
+.attachment-thumb, .attachment-default-icon {
+	max-width: 120px;
+	max-height: 120px;
+	min-width: 64px;
+	min-height: 64px;
+	display: block;
+	margin: 0 auto;
+	border-radius: 8px;
+	box-shadow: 0 0 5px #eee;
+	background: #fafafa;
+	object-fit: contain;
+}
+
+.attachment-filename {
+	font-size: 13px;
+	color: #333;
+	margin-top: 4px;
+	word-break: break-all;
+}

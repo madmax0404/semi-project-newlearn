@@ -1,0 +1,54 @@
+.date-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.status-summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.status-summary div {
+    background: #f0f0f0;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.manage-button {
+    padding: 5px 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dropdown {
+    /* position: absolute; */
+    background: #222;
+    color: white;
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    width: 80px;
+    top: 30px;
+    right: 52px;
+    z-index: 100;
+}
+
+.dropdown div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown div:hover {
+    background: #444;
+}
+
+.dropdown.show {
+    display: flex;
+}

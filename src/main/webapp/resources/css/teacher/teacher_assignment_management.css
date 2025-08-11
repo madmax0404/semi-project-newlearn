@@ -1,0 +1,12 @@
+.title-and-create {
+    display: flex;
+    justify-content: space-between;
+}
+
+#create {
+    height: fit-content;
+    border-radius: 5px;
+    padding: 10px;
+    align-self: flex-end;
+    margin-bottom: 10px;
+}

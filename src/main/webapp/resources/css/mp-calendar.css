@@ -1,0 +1,96 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f7f9fc;
+    color: #333;
+}
+
+/* top-side: 달력과 오른쪽 영역 가로 배치, 1:1 비율 */
+.top-side {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* 달력 영역 - flex 1 */
+.shared-calendar {
+    flex: 0.4;
+    min-width: 300px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 오른쪽 영역 - flex 1 */
+.right-side {
+    flex: 0.6;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* 출석률 카드 */
+.monthly-attendance {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.monthly-attendance h3 {
+    color: #4a90e2;
+    margin-bottom: 10px;
+}
+
+/* 오른쪽 영역 내 제목 스타일 */
+.right-side h2,
+.right-side h4 {
+    margin: 0 0 10px 0;
+    color: #222;
+}
+
+/* 일정 아이템 */
+.event-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.event-item span {
+    white-space: nowrap;
+    flex-grow: 1; /* 공간을 최대한 차지해서 버튼은 오른쪽 정렬 */
+}
+
+/* 버튼 그룹 */
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* 버튼 스타일 */
+form button,
+button.modal-btn {
+    padding: 8px 16px;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover,
+button.modal-btn:hover {
+    background-color: #357ab8;
+}
+
+/* 비공개 일정 안내 문구 등 텍스트 스타일 */
+.right-side > p,
+.right-side > .notice {
+    font-size: 14px;
+    color: #666;
+}

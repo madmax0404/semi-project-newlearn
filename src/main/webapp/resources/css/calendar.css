@@ -1,0 +1,52 @@
+.shared-calendar {
+  width: 100%;
+}
+
+.shared-calendar table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.shared-calendar th {
+  background-color: #6c63ff;
+  color: white;
+  padding: 10px 0;
+  font-weight: 500;
+  border: 1px solid #ddd;
+}
+
+.shared-calendar td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  height: 48px;
+}
+
+.shared-calendar td.today {
+  background-color: #fff3cd !important;
+  font-weight: bold;
+  border: 2px solid #ffa500;
+}
+
+.shared-calendar td:hover {
+  background-color: #e8f0fe;
+}
+  
+.calendar-wrapper {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.calendar-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+  

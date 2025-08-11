@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="console"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<!-- <param name="ConversionPattern" value="%-5p: %c - %m%n" /> -->
+			<param name="ConversionPattern"
+				value="%-5p: [%d{HH:mm:ss.SSS}] %C{1}.%M(%F:%L) - %m%n" />
+
+		</layout>
+	</appender>
+
+	<!-- 주기적으로 기록을 해주는 어펜더 -->
+	<appender name="dailyLog"
+		class="org.apache.log4j.DailyRollingFileAppender">
+		<!-- 현재 Appender 객체의 기본 출력 레벨 -->
+		<param name="threshold" value="INFO" />
+		<param name="append" value="true" />
+		<param name="file" value="/logs/kh.log" />
+		<param name="datePattern" value=".yyyyMMdd" />
+
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%-5p: [%d{HH:mm:ss.SSS}] %C{1}.%M(%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+
+	<logger name="com.newlearn.playground">
+		<level value="debug" />
+	</logger>
+
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+
+	<root>
+		<level value="warn" />
+		<appender-ref ref="console" />
+		<appender-ref ref="dailyLog" />
+	</root>
+
+</log4j:configuration>

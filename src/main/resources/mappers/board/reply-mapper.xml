@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+	
+	<select id="selectReplyList" parameterType="int" resultType="reply">
+        SELECT
+		  r.*,
+		  m.user_name
+		FROM
+		  reply r
+		JOIN member m ON r.user_no = m.user_no
+		WHERE r.board_no = #{boardNo}
+	      AND r.deleted = 'N'
+		ORDER BY r.reply_no
+    </select>
+
+	<insert id="insertReply" parameterType="reply">
+        INSERT INTO reply (
+            reply_no, board_no, user_no, content, create_date, deleted
+        ) VALUES (
+            SEQ_REPLY_NO.nextval, #{boardNo}, #{userNo}, #{content}, SYSDATE, 'N'
+        )
+    </insert>
+    
+    <update id="updateReply" parameterType="reply">
+	    UPDATE reply
+	    SET content = #{content},
+	        mod_date = SYSDATE
+	    WHERE reply_no = #{replyNo}
+	      AND user_no = #{userNo}
+	      AND deleted = 'N'
+	</update>
+	
+	<update id="deleteReply">
+	    UPDATE reply
+	    SET deleted = 'Y',
+	        mod_date = SYSDATE
+	    WHERE reply_no = #{replyNo}
+	      AND user_no = #{userNo}
+	</update>
+</mapper>

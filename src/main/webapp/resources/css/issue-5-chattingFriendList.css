@@ -1,0 +1,420 @@
+/* 
+    =====================
+    메인페이지
+    =====================
+*/
+/*
+    친구 영역
+*/
+#friend {
+    background-color: white;
+    border-right: 1px solid #e9ecef;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 친구 목록 상단 헤더 */
+#friend-top {
+    background: #696cff;
+    color: white;
+    height: 100px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+#friend-top > div:nth-child(1) {
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-left: 10%;
+}
+
+#friend-top > div:first-child:before {
+    /* content: '\f0c0'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+#friend-top > div:nth-child(2) {
+    font-size: 0.85rem;
+    opacity: 0.9;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-left: 2%;
+    border-radius: 12px;
+}
+
+#friend-top button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 10%Z;
+}
+
+#friend-top button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+#friend-top button:before {
+    /* content: '\f067'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 5px;
+}
+
+/* 채팅방 제목 영역 (채팅방 내부일 때) */
+.room_title {
+    background: #696cff;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.room_title:before {
+    /* content: '\f086'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+}
+
+/* 채팅방 정보 영역 */
+.room_inf {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 54px;
+    z-index: 9;
+}
+
+.room_member {
+    font-weight: 600;
+    color: #495057;
+    font-size: 0.9rem;
+}
+
+.room_member:before {
+    /* content: '\f0c0'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 5px;
+    color: #6c757d;
+}
+
+.room_member_count {
+    color: black;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.room-alarm-Y,
+.room-alarm-N,
+.room_set_button {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    padding: 5px 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.room-alarm-Y:hover,
+.room-alarm-N:hover,
+.room_set_button:hover {
+    background-color: none;
+    color: #495057;
+}
+.room-alarm-Y:before,
+.room-alarm-N:before {
+    /* content: '\f0f3'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+/* .room-noti:before {
+    content: '\f013'; 은성의 똥코드 (문양 없애기)
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+} */
+
+/* 친구 목록 내용 */
+#friend-mid {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    height: 80%;
+}
+
+#friend-mid ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+#friend-mid ul li {
+    padding: 0;
+    margin: 0;
+    height: 80px;
+}
+
+/* 빈 상태 스타일 */
+#friend-mid ul li:only-child {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+#friend-mid ul li:only-child:before {
+    /* content: '\f0c0'; 은성의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 15px;
+    color: #dee2e6;
+}
+
+/* 친구 정보 아이템 */
+.friend-inf {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f3f4;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    background-color: white;
+}
+
+.friend-inf:hover {
+    background-color: #f8f9fa;
+    transform: translateX(2px);
+}
+
+.friend-inf.active {
+    background-color: #e3f2fd;
+    border-right: 3px solid #2196f3;
+}
+
+.friend-inf:last-child {
+    border-bottom: none;
+}
+
+
+/* 친구 프로필 이미지 */
+.friend-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-left: 10%;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.friend-picture img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 온라인 상태 표시 (랜덤으로 일부 친구에게 적용) */
+.friend-picture:nth-child(3n):after,
+.friend-picture:nth-child(5n):after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #4caf50;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+/* 친구 이름과 상태메시지 */
+.friend-name-ps {
+    flex: 1;
+    min-width: 0;
+    margin-left: 10%;
+}
+
+.friend-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9rem;
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.friend-ps {
+    color: #666;
+    font-size: 0.75rem;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.8;
+}
+
+/* 빈 상태메시지일 때 기본 텍스트 */
+.friend-ps:empty:after {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+/* 스크롤바 스타일 */
+#friend::-webkit-scrollbar {
+    width: 6px;
+}
+
+#friend::-webkit-scrollbar-thumb {
+    background-color: #dee2e6;
+    border-radius: 3px;
+}
+
+#friend::-webkit-scrollbar-thumb:hover {
+    background-color: #adb5bd;
+}
+
+/* 반응형 스타일
+@media (max-width: 768px) {
+    #friend {
+        position: fixed;
+        left: -100%;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        width: 280px;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    #friend.show {
+        left: 0;
+    }
+    
+    #friend-top {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .room_inf {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .friend-inf {
+        padding: 15px;
+    }
+    
+    .friend-picture {
+        width: 36px;
+        height: 36px;
+    }
+} */
+
+/* 로딩 애니메이션 */
+.loading-friends {
+    text-align: center;
+    padding: 20px;
+    color: #6c757d;
+}
+
+.loading-friends:after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 
+    =====================
+    채팅방 페이지
+    =====================
+*/
+/*
+    top
+*/
+#friend .room_title{
+    border-bottom: 1px solid black;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#friend .exit-room{
+    width: 70px;
+    height: 30px;
+    margin-left: 10px;
+}
+#friend .room_inf{
+    border-bottom: 1px solid black;
+    height: 50px;
+    display: flex;
+    margin: 5px;
+    align-items: center;
+}
+#friend .room_inf .room_member{
+    margin-left: 4%;
+}
+#friend .room_inf .room_member_count{
+    margin-left: 1%;
+}
+#friend .room_inf .room_alarm_button{
+    width: 50px;
+    margin-left: auto;
+    margin-right: 1%;
+}
+#friend .room_inf .room_set_button{
+    width: 50px;
+    margin-right: 4%;
+}

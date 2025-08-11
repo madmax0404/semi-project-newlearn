@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과제 생성</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/16/1998/1998614.png">
+    <link rel="stylesheet" href="../../../resources/css/teacher/teacher_common.css">
+    <link rel="stylesheet" href="../../../resources/css/teacher/teacher_create_assignment.css">
+</head>
+<body>
+    <div class="container">
+    	<form:form id="assignment-create-form" method="get" action="${pageContext.request.contextPath}/teacher/${classNo }/assignment/insert">
+	        <fieldset>
+	            <legend>제목</legend>
+                <input type="text" name="title" id="title">
+	        </fieldset>
+            <fieldset>
+                <legend>내용</legend>
+                <textarea name="content" id="content" ></textarea>
+            </fieldset>
+            <fieldset id="submit-date-fieldset">
+                <legend>제출 기한</legend>
+                <div>
+                    시작일: <input type="datetime-local" name="start-datetime" id="start-date">
+                </div>
+                <div>
+                    종료일: <input type="datetime-local" name="end-datetime" id="end-date">
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>첨부파일</legend>
+                <input type="file" name="appended-file" id="appended-file">
+            </fieldset>
+            <input type="text" name="className" value="${className}" hidden>
+            <button type="submit" id="submit-button">과제 생성</button>
+    	</form:form>
+        <a href=""></a>
+    </div>
+</body>
+<script>
+    
+</script>
+</html>

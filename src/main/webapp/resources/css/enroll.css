@@ -1,0 +1,206 @@
+/* 기본 스타일 및 폰트 설정 */
+body {
+	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+	background-color: #f0f2f5;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+	padding: 50px 20px;
+	box-sizing: border-box;
+}
+
+/* 최상단 '회원가입' 제목 */
+.page-title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 25px;
+}
+
+/* 진행 단계 표시 */
+.progress-indicator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 600px;
+	margin-bottom: 25px;
+}
+
+.step {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	position: relative;
+	flex-shrink: 0;
+}
+
+.step-line {
+	flex-grow: 1;
+	height: 2px;
+	background-color: #e0e0e0;
+	margin: 0;
+	position: relative;
+	top: -12px;
+}
+
+.step-circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: white;
+	border: 2px solid #adb5bd;
+	margin-bottom: 8px;
+}
+
+.step.active .step-circle {
+	background-color: #000000;
+	border-color: #000000;
+}
+
+.step.active ~ .step-line {
+	background-color: #000000;
+}
+
+.step.active ~ .step .step-circle {
+	border-color: #000000;
+}
+
+.step-label {
+	font-size: 14px;
+	color: #868e96;
+}
+
+.step.active .step-label {
+	color: #000000;
+	font-weight: bold;
+}
+
+/* 하얀색 컨테이너 박스 */
+.enroll-container {
+	width: 100%;
+	max-width: 600px;
+	background-color: #ffffff;
+	border: 1px solid #dee2e6;
+	border-radius: 8px;
+	padding: 30px 40px;
+	box-sizing: border-box;
+	overflow-y: auto; /* 내용이 많을 경우 스크롤 */
+}
+
+.form-header {
+	margin-bottom: 30px;
+}
+
+.form-header h2 {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0 0 5px 0;
+}
+
+.form-header p {
+	font-size: 14px;
+	color: #6c757d;
+	margin: 0;
+}
+
+/* 폼 그룹 */
+.form-group {
+	margin-bottom: 20px;
+}
+
+.form-group label {
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 8px;
+}
+
+/* 기본 입력창 스타일 */
+input[type="text"], input[type="password"] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	font-size: 14px;
+	box-sizing: border-box;
+}
+
+input::placeholder {
+	color: #adb5bd;
+}
+
+/* 버튼과 함께 있는 입력창 */
+.input-with-btn {
+	display: flex;
+	gap: 10px;
+}
+
+.input-with-btn input {
+	flex-grow: 1;
+}
+
+.input-with-btn .btn-check, .input-with-btn .btn-send {
+	flex-shrink: 0;
+	padding: 0 15px;
+	background-color: #495057;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+/* 주민번호 입력 그룹 */
+.ssn-group, .email-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.ssn-group input, .email-group input {
+	text-align: center;
+}
+
+.ssn-group span, .email-group span {
+	font-size: 14px;
+	color: #6c757d;
+}
+
+.email-group .btn-send {
+	flex-shrink: 0;
+	padding: 10px 15px;
+	background-color: #495057;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.form-text {
+	font-size: 12px;
+	color: #6c757d;
+	margin-top: 5px;
+	display: block;
+}
+
+/* 하단 '다음' 버튼 */
+.form-footer {
+	text-align: right;
+	margin-top: 30px;
+}
+
+.btn-next {
+	padding: 10px 30px;
+	border: none;
+	border-radius: 6px;
+	background-color: #343a40;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+}

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+
+
+	<!-- 전체 게시글 조회 -->
+	<select id="selectAllBoards" resultType="Board">
+		SELECT b.*, m.user_name
+		AS userName
+		FROM board b
+		JOIN member m ON b.user_no = m.user_no
+		WHERE
+		deleted = 'N'
+		<if test="classNo != null">
+			AND b.class_no = #{classNo}
+		</if>
+		ORDER BY
+		create_date DESC
+	</select>
+
+	<!--카테고리별 게시글 조회 -->
+	<select id="selectBoardsByCategory" resultType="Board" parameterType="String">
+		SELECT b.*, m.user_name AS userName
+		FROM board b
+		JOIN
+		member m ON b.user_no = m.user_no
+		WHERE deleted = 'N'
+		<if test="classNo != null">
+			AND b.class_no = #{classNo}
+		</if>
+		AND category
+		= #{category}
+		ORDER BY create_date DESC
+	</select>
+
+	<!-- 검색 포함 게시글 수 -->
+	<select id="selectListCount" resultType="int" parameterType="map">
+		SELECT COUNT(*) 
+		FROM board b
+		JOIN member m ON b.user_no = m.user_no
+		WHERE b.deleted = 'N'
+		<if test="category != null and category != 'all'">
+			AND b.category = #{category}
+		</if>
+		<if test="classNo != null">
+			AND b.class_no = #{classNo}
+		</if>
+		<if test="onlyMy == true">
+	        AND b.user_no = #{userNo}
+	    </if>
+		<if test="condition != null and keyword != null and keyword != ''">
+			<choose>
+				<when test="condition == 'title'">
+					AND b.board_title LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="condition == 'content'">
+					AND b.board_content LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="condition == 'writer'">
+					AND m.user_name LIKE '%' || #{keyword} || '%'
+				</when>
+				<when test="condition == 'titleAndContent'">
+					AND (b.board_title LIKE '%' || #{keyword} || '%' OR
+					     b.board_content LIKE '%' || #{keyword} || '%')
+				</when>
+			</choose>
+		</if>
+	</select>
+
+	<!-- 검색 포함 게시글 목록 -->
+	<select id="selectList" resultType="Board" parameterType="map">
+		  SELECT *
+		  FROM (
+		    SELECT 
+		      ROW_NUMBER() OVER (ORDER BY b.create_date DESC) AS rnum,
+		      b.*, 
+		      m.user_name
+		    FROM board b
+		    LEFT JOIN member m ON b.user_no = m.user_no
+		    <where>
+		      b.deleted = 'N'
+		      <if test="category != null and category != '' and category != 'all'">
+		        AND b.category = #{category}
+		      </if>
+		      <if test="classNo != null">
+		        AND b.class_no = #{classNo}
+		      </if>
+		      <if test="onlyMy == true">
+		         AND b.user_no = #{userNo}
+		     </if>
+		      <if test="condition != null and keyword != null and keyword != ''">
+		        <choose>
+		          <when test="condition == 'title'">
+		            AND b.board_title LIKE '%' || #{keyword} || '%'
+		          </when>
+		          <when test="condition == 'content'">
+		            AND b.board_content LIKE '%' || #{keyword} || '%'
+		          </when>
+		          <when test="condition == 'writer'">
+		            AND m.user_name LIKE '%' || #{keyword} || '%'
+		          </when>
+		          <when test="condition == 'titleAndContent'">
+		            AND (b.board_title LIKE '%' || #{keyword} || '%'
+		                 OR b.board_content LIKE '%' || #{keyword} || '%')
+		          </when>
+		        </choose>
+		      </if>
+		    </where>
+		  ) B
+		  WHERE rnum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 글쓰기 -->
+	<insert id="insertBoard" parameterType="Board">
+		<selectKey keyProperty="boardNo" resultType="int"
+			order="BEFORE">
+			SELECT seq_board_no.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO board (
+		board_no, class_no, user_no, category, board_title,
+        create_date, deleted, thumbnail, board_content
+		) VALUES (
+		 #{boardNo}, #{classNo}, #{userNo}, #{category}, #{boardTitle},
+        SYSDATE, 'N', #{thumbnail}, #{boardContent}
+		)
+	</insert>
+
+	<insert id="insertBoardReturnBoardNo" parameterType="Board">
+		<selectKey keyProperty="boardNo" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO board (
+		 board_no, class_no, user_no, category, board_title,
+        create_date, deleted, thumbnail, board_content
+		) VALUES (
+		 #{boardNo}, #{classNo}, #{userNo}, #{category}, #{boardTitle},
+        SYSDATE, 'N', #{thumbnail}, #{boardContent}
+		)
+	</insert>
+
+	<insert id="insertAssignmentSubmission"
+		parameterType="AssignmentSubmission">
+		<selectKey keyProperty="submissionNo" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_ASSIGNMENT_SUBMISSION_NO.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO assignment_submission (
+		submission_no, assignment_no, board_no, user_no, submission_date
+		) VALUES (
+		#{submissionNo}, #{assignmentNo}, #{boardNo}, #{userNo}, #{submissionDate}
+		)
+	</insert>
+
+	<insert id="insertBoardFile" parameterType="BoardFile">
+		<selectKey keyProperty="fileNo" order="BEFORE"
+			resultType="int">
+			SELECT SEQ_BOARD_FILE_NO.NEXTVAL FROM dual
+		</selectKey>
+		INSERT INTO board_file (
+		board_file_no, origin_name, change_name, ref_bno, file_level, file_type
+		) VALUES (
+		#{fileNo}, #{originName}, #{changeName}, #{refBno}, #{fileLevel}, #{fileType}
+		)
+	</insert>
+	
+	
+	<!-- 조회수증가 -->
+	<update id="increaseCount" parameterType="int">
+    UPDATE board
+    SET view_count = view_count + 1
+    WHERE board_no = #{boardNo}
+	</update>
+	<!-- 게시글상세조회+boardExt -->
+	<select id="selectBoard" parameterType="int" resultType="boardExt">
+    SELECT b.*, m.user_name AS userName
+    FROM board b
+    LEFT JOIN member m ON b.user_no = m.user_no
+    WHERE b.board_no = #{boardNo}
+	</select>
+	<!-- 추천중복체크 -->
+	<select id="hasUserLiked" parameterType="map" resultType="int">
+    SELECT COUNT(*)
+    FROM board_like
+    WHERE board_no = #{boardNo}
+    AND user_no = #{userNo}
+	</select>
+	<!-- 추천등록 -->
+	<insert id="insertBoardLike" parameterType="map">
+    INSERT INTO board_like (board_like_no, board_no, user_no, like_date)
+    VALUES (SEQ_BOARD_LIKE.NEXTVAL, #{boardNo}, #{userNo}, SYSDATE)
+	</insert>
+	<!-- 추천수 카운트 -->
+	<select id="selectLikeCount" parameterType="int" resultType="int">
+    SELECT COUNT(*)
+    FROM board_like
+    WHERE board_no = #{boardNo}
+	</select>
+	<!-- 추천수 1 증가 -->
+	<update id="increaseBoardLike" parameterType="int">
+	    UPDATE board SET like_count = like_count + 1 WHERE board_no = #{boardNo}
+	</update>
+	<!-- 게시글번호로 파일조회 -->
+	<select id="selectFilesByBoardNo" parameterType="int" resultType="boardFile">
+	    SELECT
+	        board_file_no AS fileNo,
+	        origin_name AS originName,
+	        change_name AS changeName,
+	        ref_bno AS refBno,
+	        file_level AS fileLevel,
+	        file_type AS fileType
+	    FROM board_file
+	    WHERE ref_bno = #{boardNo}
+	    ORDER BY board_file_no
+	</select>
+	<!-- 게시글 수정 -->
+	<update id="updateBoard" parameterType="board">
+	    UPDATE board
+	    SET board_title = #{boardTitle},
+	        board_content = #{boardContent},
+	        thumbnail = #{thumbnail}
+	    WHERE board_no = #{boardNo}
+	</update>
+	<!-- 게시글 번호로 파일 전체 삭제 -->
+	<delete id="deleteFilesByRefBno" parameterType="int">
+	    DELETE FROM board_file WHERE ref_bno = #{boardNo}
+	</delete>
+
+	<!-- 게시글 논리적 삭제 -->
+	<update id="deleteBoard">
+	  UPDATE board
+	  SET deleted = 'Y'
+	  WHERE board_no = #{boardNo}
+	</update>
+	
+	<!-- 신고 -->
+	<insert id="insertBoardReport" parameterType="TeacherReport">
+	    <selectKey keyProperty="reportNo" order="BEFORE" resultType="int">
+	        SELECT SEQ_REPORT.NEXTVAL FROM dual
+	    </selectKey>
+	    INSERT INTO report (
+	        report_no, user_no, report_type, ref_no, report_content,
+	        report_time, report_status, link, class_no
+	    ) VALUES (
+	        #{reportNo}, #{reporterUserNo}, #{reportType}, #{refNo}, #{reportContent},
+	        #{reportTime}, #{reportStatus}, #{link}, #{classNo}
+	    )
+	</insert>
+
+
+
+</mapper>
+

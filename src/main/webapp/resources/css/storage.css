@@ -1,0 +1,267 @@
+/* 기본 설정 */
+body {
+    margin: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f5f6fa;
+    color: #2f3640;
+    height: 100vh;
+}
+
+/* 컨테이너 */
+.storage-wrapper {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+}
+
+/* 왼쪽 사이드바 */
+.left-side {
+    width: 260px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* 전체문서함 버튼 */
+#all-files-btn {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #4a69bd;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+#all-files-btn:hover {
+    background-color: #3b5aa0;
+}
+
+/* 폴더 리스트 */
+.repo-item {
+    margin: 5px 0;
+}
+
+.repo-btn {
+    width: 100%;
+    padding: 8px 12px;
+    background-color: #f1f2f6;
+    border: none;
+    text-align: left;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.repo-btn:hover {
+    background-color: #dcdde1;
+}
+
+/* 검색 섹션 */
+.search-file {
+    margin-top: 30px;
+}
+
+.search-file form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.select select,
+.text input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.search-Btn {
+    padding: 10px;
+    background-color: #273c75;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-Btn:hover {
+    background-color: #192a56;
+}
+
+/* 메인 영역 */
+.storage-main-body {
+    flex-grow: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+/* ========================= */
+/* 📂 FILE TABLE 스타일링 */
+/* ========================= */
+.file-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 20px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.file-table thead {
+    background-color: #f1f2f6;
+}
+
+.file-table th,
+.file-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.file-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.file-table .btn {
+    margin-right: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+/* 버튼 공통 */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-secondary {
+    background-color: #ced6e0;
+    color: #2f3640;
+}
+
+.btn-secondary:hover {
+    background-color: #a4b0be;
+}
+
+.primary-btn {
+    background-color: #44bd32;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #4cd137;
+}
+
+.danger-btn {
+    background-color: #e84118;
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: #c23616;
+}
+
+.action-btn {
+    background-color: #40739e;
+    color: white;
+}
+
+.action-btn:hover {
+    background-color: #273c75;
+}
+
+/* ========================= */
+/* 🧾 FORM / MODAL STYLES */
+/* ========================= */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type="text"],
+input[type="file"],
+select {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 모달 */
+.mymodal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+}
+
+.mymodal .modal-content {
+    background-color: white;
+    padding: 25px 30px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.mymodal h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* ========================= */
+/* 📄 기타 레이아웃 스타일 */
+/* ========================= */
+.current-folder {
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.file-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.visibility-toggle {
+    margin: 0;
+}
+
+.visibility-toggle button {
+    margin: 0;
+}
+
+.upload-file {
+    margin-top: 20px;
+}

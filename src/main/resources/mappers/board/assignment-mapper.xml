@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="assignment">
+    <!-- 모든 과제 목록 조회 -->    
+    <select id="getAllAssignments" resultType="assignment">
+        SELECT * FROM assignment 
+        WHERE deleted = 'N' 
+        ORDER BY assignment_no DESC
+    </select>
+    
+    <select id="getAssignmentByBoardNo" parameterType="int" resultType="assignment">
+          SELECT a.*
+		  FROM assignment a
+		  JOIN assignment_submission s ON a.assignment_no = s.assignment_no
+		  WHERE s.board_no = #{boardNo}
+		    AND a.deleted = 'N'
+    </select>
+    
+    <select id="selectAssignmentsByClassNo" parameterType="int" resultType="Assignment">
+        SELECT *
+        FROM assignment
+        WHERE class_no = #{classNo}
+          AND deleted = 'N'
+    </select>
+    
+    <!-- 과제+첨부파일 -->
+    <select id="selectAssignmentsWithFileByClassNo" parameterType="int" resultMap="assignmentWithFileMap">
+	    SELECT 
+	        a.*, 
+	        f.FILE_NO as file_fileNo,
+	        f.ORIGIN_NAME as file_originName,
+	        f.CHANGE_NAME as file_changeName,
+	        f.VISIBILITY as file_visibility,
+	        f.CREATE_DATE as file_createDate,
+	        f.FILE_SIZE as file_fileSize,
+	        f.DELETED as file_deleted,
+	        f.SOURCE as file_source,
+	        f.SOURCE_NO as file_sourceNo,
+	        f.USER_NO as file_userNo
+	    FROM assignment a
+	    LEFT JOIN upload_file f ON a.file_no = f.file_no
+	    WHERE a.class_no = #{classNo}
+	      AND a.deleted = 'N'
+	</select>
+	<resultMap id="assignmentWithFileMap" type="Assignment">
+	    <id property="assignmentNo" column="ASSIGNMENT_NO"/>
+	    <result property="classNo" column="CLASS_NO"/>
+	    <result property="assignmentTitle" column="ASSIGNMENT_TITLE"/>
+	    <result property="assignmentDetails" column="ASSIGNMENT_DETAILS"/>
+	    <result property="createDate" column="CREATE_DATE"/>
+	    <result property="startDate" column="START_DATE"/>
+	    <result property="endDate" column="END_DATE"/>
+	    <result property="deleted" column="DELETED"/>
+	    <result property="fileNo" column="FILE_NO"/>
+	
+	    <association property="uploadFile" javaType="TeacherUploadFile">
+	        <id property="fileNo" column="file_fileNo"/>
+	        <result property="originName" column="file_originName"/>
+	        <result property="changeName" column="file_changeName"/>
+	        <result property="visibility" column="file_visibility"/>
+	        <result property="createDate" column="file_createDate"/>
+	        <result property="fileSize" column="file_fileSize"/>
+	        <result property="deleted" column="file_deleted"/>
+	        <result property="source" column="file_source"/>
+	        <result property="sourceNo" column="file_sourceNo"/>
+	        <result property="userNo" column="file_userNo"/>
+	    </association>
+	</resultMap>
+</mapper>

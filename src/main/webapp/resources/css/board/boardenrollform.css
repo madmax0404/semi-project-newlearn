@@ -1,0 +1,89 @@
+
+
+.board-write-form {
+	width: 75%;
+	background-color: #fff;
+	border-radius: 12px;
+	padding: 24px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.board-write-form .form-group {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 16px;
+}
+
+.board-write-form label {
+	font-weight: bold;
+	margin-bottom: 6px;
+	color: #696cff;
+	font-size: 24px;
+}
+
+.board-write-form input[type="text"], .board-write-form select,
+	.board-write-form textarea {
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 14px;
+	resize: none;
+}
+
+.board-write-form textarea {
+	height: 200px;
+}
+
+.board-write-form input[type="file"] {
+	margin-top: 8px;
+}
+
+#image-preview {
+	display: flex;
+	gap: 12px;
+	margin-top: 12px;
+	flex-wrap: wrap;
+}
+
+#image-preview img {
+	width: 120px;
+	height: 120px;
+	object-fit: cover;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+}
+
+.submit-btn {
+	background-color: #696cff;
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+	background-color: #1e88e5;
+}
+
+/* 시작일,마감일 */
+.board-write-form .form-group.form-row {
+	display: flex;
+	flex-direction: row;
+	gap: 24px;
+	align-items: flex-end;
+}
+
+.form-col {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.form-col label {
+	margin-bottom: 6px;
+}
+}

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- DB 연결 설정 -->
+	<context:property-placeholder
+		location="classpath:driver.properties,
+	classpath:email/email.properties" />
+
+	<!-- 1단계) DB 연결 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${dataSource.driver}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="username" value="${dataSource.username}" />
+		<property name="password" value="${dataSource.password}" />
+	</bean>
+
+	<!-- 2단계) MyBatis Spring을 활용하여 SqlSessionFactory 생성 -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- MyBatis 설정 파일 위치 지정 -->
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="classpath:mappers/**/*.xml" />
+	</bean>
+
+	<!-- 3단계) SqlSessionTemplate을 제공하는 bean 등록 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- transactionManager - 데이터베이스 트랜잭션 처리를 담당하는 bean 객체 - jdbc를 통해 커넥션을 얻어온 
+		후, 트랜잭션 시작/커밋/롤백 처리를 담당. - @Transactional 어노테이션을 통해 트랜잭션을 선언적으로 처리. -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- multipartResolver - Http 요청 중 파일 업로트 형태(multipart)의 데이터가 전달되는 경우, 이를 
+		처리해주는 bean 객체. - request 객체를 상속받은 MultipartHttpServletRequest로 자동 변경해준다. -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
+		<!-- maxUploadSize: 업로드 되는 전체 파일의 크기 제한 설정(바이트) maxInMemorySize: 업로드 처리시 
+			디시크에 파일을 생성하기 전, 메모리에 보관할 파일의 최대 크기. 업로드한 파일의 크기가 inMemorySize보다 큰 경우 파일을 
+			디스크에 임시 보관한다. -->
+		<property name="maxUploadSize" value="10000000"></property>
+		<property name="maxInMemorySize" value="2000000"></property>
+	</bean>
+	<!-- 이메일 관련 설정 파일을 포함 -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${smtp.host}" />
+		<property name="port" value="${smtp.port}" />
+		<property name="username" value="${smtp.username}" />
+		<property name="password" value="${smtp.password}" />
+
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">false</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

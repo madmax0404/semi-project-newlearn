@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage">
+	<select id="getMypageByMypageNo" resultType="mypage">
+		select m.*, user_name from mypage m
+		join member on m.user_no = member.user_no
+		where mypage_no = #{mypageNo}
+	</select>
+	
+	<select id="getMontlyAttCnt" resultType="int">
+		select count(*)
+		from attendance
+		where user_no = #{mypageNo}
+			and class_no = #{classNo}
+			and to_char(entry_time, 'YYYY-FMMM') = #{month}
+	</select>
+	
+	<select id="getSubscription" resultType="subscription">
+		select * from subscription
+		where user_no = #{user_no}
+	</select>
+	
+	<update id="modifySubscription">
+	    update subscription
+	    <set>
+	        <if test="generalNoti != null and generalNoti.contains('guestbook')">
+	            guestbook_noti = 'Y',
+	        </if>
+	        <if test="generalNoti == null or !generalNoti.contains('guestbook')">
+	            guestbook_noti = 'N',
+	        </if>
+	
+	        <if test="generalNoti != null and generalNoti.contains('chatting')">
+	            chat_noti = 'Y',
+	        </if>
+	        <if test="generalNoti == null or !generalNoti.contains('chatting')">
+	            chat_noti = 'N',
+	        </if>
+	
+	        <if test="generalNoti != null and generalNoti.contains('friendReq')">
+	            friend_request_noti = 'Y',
+	        </if>
+	        <if test="generalNoti == null or !generalNoti.contains('friendReq')">
+	            friend_request_noti = 'N',
+	        </if>
+	
+	        <if test="generalNoti != null and generalNoti.contains('classInvi')">
+	            class_invitation_noti = 'Y',
+	        </if>
+	        <if test="generalNoti == null or !generalNoti.contains('classInvi')">
+	            class_invitation_noti = 'N',
+	        </if>
+	    </set>
+	    where user_no = #{userNo}
+	</update>
+	
+	<update id="modifyClassSubscription">
+	    update class_join
+	    <set>
+	        <if test="classNoti != null and classNoti.contains('announcement')">
+	            accouncement_noti = 'Y',
+	        </if>
+	        <if test="classNoti == null or !classNoti.contains('announcement')">
+	            accouncement_noti = 'N',
+	        </if>
+	
+	        <if test="classNoti != null and classNoti.contains('assignment')">
+	            assignment_noti = 'Y',
+	        </if>
+	        <if test="classNoti == null or !classNoti.contains('assignment')">
+	            assignment_noti = 'N',
+	        </if>
+	
+	        <if test="classNoti != null and classNoti.contains('sharedEvent')">
+	            shared_event_noti = 'Y',
+	        </if>
+	        <if test="classNoti == null or !classNoti.contains('sharedEvent')">
+	            shared_event_noti = 'N',
+	        </if>
+	
+	        <if test="classNoti != null and classNoti.contains('personalEvent')">
+	            personal_event_noti = 'Y',
+	        </if>
+	        <if test="classNoti == null or !classNoti.contains('personalEvent')">
+	            personal_event_noti = 'N',
+	        </if>
+	    </set>
+	    where user_no = #{userNo}
+	    and class_no = #{classNo}
+	</update>
+
+	<select id="getSlidingImgList" resultType="image">
+		select * from image
+		join mypage_img using (img_no)
+		where type = 'sliding'
+			and mypage_no = #{mypageNo}
+	</select>
+	
+	<insert id="imgUpload">
+		<selectKey keyProperty="imgNo" resultType="int" order="BEFORE">
+			SELECT SEQ_IMG_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO IMAGE
+		VALUES(#{imgNo}, #{originName}, #{changeName}, sysdate)		
+	</insert>
+	
+	<!-- <insert id="mypageImgUpload">
+	    <foreach collection="imgList" item="img" separator=";">
+	        INSERT INTO mypage_img (mypage_img_no, mypage_no, img_no, type)
+	        VALUES (seq_mypage_img_no.NEXTVAL, #{mypageNo}, #{img.imgNo}, 'sliding')
+	    </foreach>
+	</insert> -->
+	
+	<insert id="mypageImgUpload">
+        INSERT INTO mypage_img (mypage_img_no, mypage_no, img_no, type)
+        VALUES (seq_mypage_img_no.NEXTVAL, #{mypageNo}, #{img.imgNo}, 'sliding')
+	</insert>
+
+	<delete id="deleteSlidingImg">
+		delete from image
+		where img_no = #{imgNo}
+	</delete>
+	
+	<select id="getImgByChangeName" resultType="image">
+		select * from image
+		where change_name = #{changeName}
+	</select>
+	
+	<insert id="newMemberMypage">
+		insert into mypage (mypage_no, user_no, mypage_name) values
+		(#{mypageNo}, #{mypageNo}, '마이페이지')
+	</insert>
+	
+	<insert id="newMemberSubscription">
+		insert into subscription (sub_no, user_no) values
+		(seq_sub_no.nextval, #{userNo})
+	</insert>
+	
+	<insert id="createClass">
+		insert into class(class_no, class_name, teacher_no, class_code) values(seq_class.nextval, #{className}, #{userNo}, #{classCode})
+	</insert>
+	
+	<insert id="joinClassAsTeacher">
+		insert into class_join(class_no, user_no, class_role, class_join_no) values(seq_class.currval, #{userNo}, 'teacher', seq_class_join.nextval)
+	</insert>
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="repo">
+	<select id="getRepoList" resultType="repository">
+		select level, r.* from repository r
+			start with parent_repo_no is null and mypage_no = #{mypageNo}
+			connect by prior repo_no = parent_repo_no
+	</select>
+	
+	<select id="getRepoByRepoNo" resultType="repository">
+		select * from repository
+		where repo_no = #{repoNo}
+	</select>
+	
+	<insert id="insertFile">
+		insert into upload_file values
+		(seq_file_no.nextval, #{originName}, #{changeName}, 'public', sysdate, #{fileSize}, 'N',
+		#{source}, #{sourceNo}, #{userNo})
+	</insert>
+	
+	<select id="getFileList" resultType="uploadFile">
+		select * from upload_file
+		where source_no = #{sourceNo}
+			and visibility = #{visibility}
+			and source = 'repository'
+			and deleted = 'N'
+	</select>
+	
+	<select id="getFileListWithPaging" resultType="uploadFile">
+		select * from (
+			select rownum as rnum, uf.* from (
+				select * from upload_file
+				where source_no = #{sourceNo}
+					and visibility = #{visibility}
+					and source = 'repository'
+					and deleted = 'N'
+				order by create_date desc
+			) uf
+			where rownum <![CDATA[<=]]> #{offset} + #{limit}
+		)
+		where rnum > #{offset}
+	</select>
+	
+	<select id="searchFileCnt" resultType="int">
+		select count(*) from upload_file
+		join repository on repo_no = source_no
+		where mypage_no = #{mypageNo}
+			and visibility = #{visibility}
+			and source = 'repository'
+			and deleted = 'N'
+		<if test="keyword != null and keyword != ''">
+			and
+			<choose>
+				<when test="selection.equals('fileName')">
+					origin_name like '%'||#{keyword}||'%'
+				</when>
+				<when test="selection.equals('dirName')">
+					dir_name like '%'||#{keyword}||'%'
+				</when>
+				<when test="selection.equals('fileAndDir')">
+					(origin_name like '%'||#{keyword}||'%'
+					or
+					dir_name like '%'||#{keyword}||'%')
+				</when>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="searchFileList" resultType="uploadFile">
+		select * from (
+			select rownum as rnum, uf.* from (
+				select * from upload_file
+				join repository on repo_no = source_no
+				where mypage_no = #{mypageNo}
+					and visibility = #{visibility}
+					and source = 'repository'
+					and deleted = 'N'
+				<if test="keyword != null and keyword != ''">
+					and
+					<choose>
+						<when test="selection.equals('fileName')">
+							origin_name like '%'||#{keyword}||'%'
+						</when>
+						<when test="selection.equals('dirName')">
+							dir_name like '%'||#{keyword}||'%'
+						</when>
+						<when test="selection.equals('fileAndDir')">
+							(origin_name like '%'||#{keyword}||'%'
+							or
+							dir_name like '%'||#{keyword}||'%')
+						</when>
+					</choose>
+				</if>
+				order by create_date desc
+			) uf
+			where rownum <![CDATA[<=]]> #{offset} + #{limit}
+		)
+		where rnum > #{offset}
+	</select>
+	
+	<update id="moveFoler">
+		update upload_file set
+		source_no = #{folderNo}
+		where file_no in
+		<foreach item="f" collection="fileNos" open="(" separator="," close=")">
+			#{f}
+		</foreach>
+			and user_no = #{userNo}
+			and source = 'repository'
+	</update>
+	
+	<update id="editFile">
+		update upload_file
+		<set>
+			<if test="newFileName != null and newFileName != ''">
+				origin_name = #{newFileName},
+			</if>
+			<if test="visibility != null and visibility != ''">
+				visibility = #{visibility}
+			</if>
+		</set>
+		where file_no = #{fileNo}
+			and user_no = #{userNo}
+			and source = 'repository'
+	</update>
+	
+	<update id="deleteFiles">
+		update upload_file set
+		deleted = 'Y'
+		where file_no in
+		<foreach item="f" collection="fileNos" open="(" separator="," close=")">
+			#{f}
+		</foreach>
+			and user_no = #{userNo}
+			and source = 'repository'
+	</update>
+	
+	<insert id="newFolder">
+		insert into repository values
+		(seq_repo_no.nextval, #{userNo}, #{dirName}, #{parentRepo})
+	</insert>
+	
+	<select id="maxStorage" resultType="long">
+		select max_storage from mypage
+		where mypage_no = #{mypageNo}
+	</select>
+	
+	<select id="getAllFileSize" resultType="long">
+		select NVL(sum(file_size), 0) from upload_file
+		where user_no = #{mypageNo}
+			and source = 'repository'
+			and deleted = 'N'
+	</select>
+	
+	<select id="getFileByFileNo" resultType="uploadFile">
+		select * from upload_file
+		where file_no = #{fileNo}
+			and deleted = 'N'
+	</select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class">
+	<select id="getClassJoins" resultType="int">
+		select class_no from class_join
+		where user_no = #{userNo}
+	</select>
+	
+	<select id="getTeacherClassJoins" resultType="int">
+		select class_no from class_join
+		where user_no = #{userNo}
+			and class_role = 'teacher'
+	</select>
+
+	<select id="getAttendance" resultType="attendance">
+		select * from attendance
+		where trunc(entry_time) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and class_no = #{classNo}
+			and user_no = #{userNo}
+	</select>
+	
+	<select id="getClassroom" resultType="classroom">
+		select * from class
+		where class_no = #{classNo}
+	</select>
+	
+	<insert id="addAttendance">
+		insert into attendance(att_no, user_no, class_no, att_status, entry_time)
+		values(seq_attendance.nextval, #{userNo}, #{classNo}, '출석', sysdate)
+	</insert>
+	
+	<select id="getClasslist" resultType="classroom">
+		select * from class
+		join class_join using(class_no)
+		where user_no = #{mypageNo}
+	</select>
+	
+	<delete id="exitClass">
+		delete from class_join
+		where user_no = #{userNo}
+			and class_no = #{classNo}
+	</delete>
+	
+	<insert id="joinClass">
+		insert into class_join(class_join_no, class_no, user_no)
+		values (seq_class_join.nextval, #{classNo}, #{userNo})
+	</insert>
+	
+	<select id="getClassByClasscode" resultType="classroom">
+		select * from class
+		where class_code = #{classCode}
+	</select>
+	
+	<select id="getClassJoin" resultType="classJoin">
+		select * from class_join
+		where class_no = #{classNo}
+			and user_no = #{userNo}
+	</select>
+	
+	 <select id="getClassJoinByUserNo" parameterType="int" resultType="classJoin">
+	    SELECT *
+	    FROM class_join
+	    WHERE user_no = #{userNo}
+	      AND class_no = #{classNo}
+	  </select>
+</mapper>

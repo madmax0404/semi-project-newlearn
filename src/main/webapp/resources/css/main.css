@@ -1,0 +1,332 @@
+/* 전체 레이아웃: 3단 구성 (왼쪽 사이드바 - 메인보드 - 오른쪽 사이드바) */
+.content {
+	display: flex;
+	flex-direction: row;
+	min-height: 100vh;
+	font-family: 'Noto Sans KR', sans-serif;
+	gap: 12px;
+	padding: 16px;
+	box-sizing: border-box;
+}
+
+/* 왼쪽 사이드바 */
+.sidebar-left {
+  width: 550px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+}
+
+.mini-profile {
+	/* border-bottom: 1px solid #ccc; */
+	/* padding-bottom: 12px; */
+	font-size: 14px;
+	color: #333;
+}
+
+.mini-profile span {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 500;
+}
+
+button {
+	padding: 10px 14px;
+	border: none;
+	border-radius: 6px;
+	background-color: #696cff;
+	color: white;
+	cursor: pointer;
+	font-weight: 600;
+	transition: background-color 0.3s ease;
+}
+
+button:hover {
+	background-color: #1e88e5;
+}
+
+/* .friend-list,
+.chatroom-list {
+	border-top: 1px solid #ccc;
+	padding-top: 12px;
+}
+
+.friend-list h4,
+.chatroom-list h4 {
+	margin: 8px 0;
+	font-weight: 600;
+	cursor: pointer;
+	color: #555;
+}
+
+.friend-list h4:hover,
+.chatroom-list h4:hover {
+	color: #000;
+	text-decoration: underline;
+} */
+.friend-chatting-list {
+	/* display: flex;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 12px;
+	padding: 5px; */
+	display: flex;
+    justify-content: space-between; /* 좌우 정렬 */
+    align-items: center; /* 상하 중앙 정렬 */
+    border-bottom: 1px solid #ccc;
+    /* padding: 5px 15px; 상하 12px, 좌우 15px */
+	padding-bottom: 15px;
+	
+}
+.friend-chatting-list button:nth-child(1) {
+	height: 30px;
+}
+.friend-chatting-list button:nth-child(2) {
+height: 30px;
+}
+
+/* 가운데 메인 보드 */
+.board {
+	width: 100%;
+	flex-grow: 1;
+	padding: 20px;
+	border-radius: 8px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.board-category {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.board-category a{
+	 text-decoration: none;
+	 color : #696cff;
+	 font-size: 25px;
+	 
+}
+
+.board-category li:hover{
+	 text-decoration: none !important;
+	 background-color: #696cff;
+	 color: white !important;
+	 border-radius: 5px !important;
+	 
+}
+.board-category a:hover{
+	 text-decoration: none !important;
+	 background-color: #696cff;
+	 color: white !important;
+	 border-radius: 5px !important;
+	 
+}
+.board-category {
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-category ul {
+	display: flex;
+	gap: 60px;
+	padding-left: 0;
+	list-style: none;
+	border-bottom: 2px solid #696cff;
+	margin-bottom: 12px;
+	margin-right: 40px;
+}
+
+form.search-form .search-button{
+	height: 42.9375px !important;
+	width: 48px !important;
+}
+
+.board-category li {
+	cursor: pointer;
+	padding-bottom: 6px;
+	font-weight: 600;
+	transition: color 0.3s ease, border-bottom 0.3s ease;
+	border-bottom: 2px solid transparent;
+}
+
+.board-list {
+	flex-grow: 1;
+	width: 80%;
+	min-width: 700px;
+}
+
+/* 게시판 테이블 */
+.board-table {
+	width: 90%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	margin: 0 auto;
+}
+
+.board-table th,
+.board-table td {
+	padding: 6px 12px;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 15px;	
+}
+
+.board-table th{
+	font-size: 22px !important;
+}
+
+.board-table .col-img   { width: 8%; }
+.board-table .col-category {width: 12%; }
+.board-table .col-title { width: 20%; }
+.board-table .col-writer{ width: 12%; }
+.board-table .col-date  { width: 15%; }
+.board-table .col-views { width: 8%; }
+.board-table .col-likes { width: 8%; }
+
+.board-table tbody tr:hover{
+	background-color:  rgba(105, 108, 255, 0.5); 
+}
+.board-table tbody td{
+	font-size: 20px;
+}
+/* 검색 및 글쓰기 */
+.search-write-wrap {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.search-form {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+.search-form button{
+	border-radius: 6px;
+}
+.search-select,
+.search-input,
+.search-button {
+	height: 32px;
+	font-size: 14px;
+	padding: 4px 8px;
+	border-radius: 6px;
+}
+
+.search-input {
+	width: 200px;
+}
+
+.search-button:hover {
+	background-color: #1e88e5;
+}
+
+.write-btn {
+	margin-left: 20px;
+	height: 32px;
+}
+
+.write-btn button{
+	border-radius: 6px;
+}
+.btn-warning {
+	background-color: #696cff !important;
+	border: 1px solid #696cff !important;
+	box-shadow: none !important;
+}
+.btn-warning a{
+	color: white;
+}
+/* 페이징 영역 */
+#pagingArea {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.pagination {
+	display: flex;
+	list-style: none;
+	padding: 0;
+	gap: 6px;
+}
+
+.pagination a {
+	color: black;
+	text-decoration: none;
+	padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination li {
+	display: inline-flex;
+	align-items: center;
+    justify-content: center;
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+	transition: all 0.2s ease-in-out;
+}
+
+.pagination li:hover {
+	color: #000;
+}
+
+.pagination li.active {
+	background-color: #e91e63;
+	color: #fff;
+	font-weight: bold;
+}
+
+/* 오른쪽 사이드바 */
+.sidebar-right {
+	width:550px;
+	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 8px rgb(0 0 0/ 0.1);
+	font-size: 14px;
+	color: #222;
+}
+
+.notification h4 {
+	margin-bottom: 12px;
+	font-weight: 700;
+	border-bottom: 1px solid #4fc3f7;
+	padding-bottom: 6px;
+}
+
+.notification p {
+  margin: 8px 0;
+  line-height: 1.4;
+  cursor: default;
+}
+
+.mypage-and-entry {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

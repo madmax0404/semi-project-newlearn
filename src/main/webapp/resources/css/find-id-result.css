@@ -1,0 +1,219 @@
+body {
+	font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+	background-color: #f0f2f5;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	margin: 0;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.page-title {
+	font-size: 24px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 25px;
+}
+
+/* 진행 단계 표시 */
+.progress-indicator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 600px;
+	margin-bottom: 60px;
+}
+
+.step {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	position: relative;
+	flex-shrink: 0;
+}
+
+.step-line {
+	flex-grow: 1;
+	height: 2px;
+	background-color: #e0e0e0;
+	margin: 0;
+	position: relative;
+	top: -12px;
+}
+
+.step-line.active {
+	background-color: #000000;
+}
+
+.step-circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: white;
+	border: 2px solid #adb5bd;
+	margin-bottom: 8px;
+}
+
+.step.active .step-circle {
+	background-color: #000000;
+	border-color: #000000;
+}
+
+.step-label {
+	font-size: 14px;
+	color: #868e96;
+}
+
+.step.active .step-label {
+	color: #000000;
+	font-weight: bold;
+}
+
+/* 결과 컨테이너 */
+.complete-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.icon-wrapper {
+	margin-bottom: 30px;
+}
+
+/* 성공 아이콘 */
+.checkmark {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	display: block;
+	stroke-width: 4;
+	stroke: #fff;
+	stroke-miterlimit: 10;
+	box-shadow: inset 0px 0px 0px #0d6efd;
+	animation: fill-success .4s ease-in-out .4s forwards, scale .3s
+		ease-in-out .9s both;
+}
+
+.checkmark-circle {
+	stroke-dasharray: 166;
+	stroke-dashoffset: 166;
+	stroke-width: 3;
+	stroke: #0d6efd;
+	fill: none;
+	animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+	transform-origin: 50% 50%;
+	stroke-dasharray: 48;
+	stroke-dashoffset: 48;
+	animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+
+/* 성공 아이콘 애니메이션 */
+@keyframes stroke {
+	100% {
+		stroke-dashoffset: 0;
+	}
+}
+@keyframes scale {
+	0%, 100% {
+		transform: none;
+	}
+	50% {
+		transform: scale3d(1.1, 1.1, 1);
+	}
+}
+@keyframes fill-success {
+	100% {
+	box-shadow: inset 0px 0px 0px 50px #0d6efd;
+	}
+}
+
+/* 실패 아이콘 */
+.failmark {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	display: block;
+	stroke-width: 4;
+	stroke: #fff;
+	stroke-miterlimit: 10;
+	box-shadow: inset 0px 0px 0px #dc3545;
+	animation: fill-fail .4s ease-in-out .4s forwards, scale .3s ease-in-out
+		.9s both;
+}
+
+.failmark-circle {
+	stroke-dasharray: 166;
+	stroke-dashoffset: 166;
+	stroke-width: 3;
+	stroke: #dc3545;
+	fill: none;
+	animation: stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.failmark-check {
+	transform-origin: 50% 50%;
+	stroke-dasharray: 48;
+	stroke-dashoffset: 48;
+	stroke-linecap: round;
+	animation: stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
+}
+
+/* 실패 아이콘 전용 애니메이션 */
+@keyframes fill-fail {
+	100% {
+		box-shadow: inset 0px 0px 0px 50px #dc3545;
+	}
+
+}
+
+/* 실패 메시지 제목 색상 */
+.complete-title.fail {
+	color: #dc3545;
+}
+
+/* 결과 메시지 스타일 */
+.complete-title {
+	font-size: 28px;
+	font-weight: bold;
+	margin: 0 0 15px 0;
+}
+
+.complete-message {
+	font-size: 16px;
+	color: #495057;
+	margin: 5px 0;
+}
+
+.complete-message a {
+	color: #0d6efd;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.complete-message a:hover {
+	text-decoration: underline;
+}
+
+/* 하단 버튼 */
+.action-btn {
+	display: inline-block;
+	padding: 12px 50px;
+	border: none;
+	border-radius: 6px;
+	background-color: #343a40;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	text-decoration: none;
+	margin-top: 40px;
+}

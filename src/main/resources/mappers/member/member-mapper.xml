@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<resultMap id="memberResultSet" type="member">
+		<id property="userNo" column="USER_NO" />
+		<result property="userId" column="USER_ID" />
+		<result property="userPwd" column="USER_PW" />
+		<result property="userName" column="USER_NAME" />
+		<result property="email" column="EMAIL" />
+		<result property="phone" column="PHONE" />
+		<result property="ssn" column="SSN" />
+		<result property="status" column="MEMBER_STATUS" />
+		<result property="enrollDate" column="JOIN_DATE" />
+		<result property="userRole" column="USER_ROLE" />
+	</resultMap>
+
+
+	<select id="loginMember" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE
+		USER_ID = #{userId}
+		AND MEMBER_STATUS = 'Y'
+	</select>
+
+	<insert id="insertMember">
+		INSERT INTO MEMBER (
+		USER_NO, USER_ID, USER_PW,
+		USER_NAME,
+		SSN, PHONE, EMAIL
+		) VALUES (
+		SEQ_MEMBER.NEXTVAL,
+		#{userId},
+		#{userPwd},
+		#{userName},
+		#{ssn},
+		#{phone},
+		#{email}
+		)
+	</insert>
+
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE USER_ID = #{userId}
+	</select>
+
+	<select id="emailCheck" resultType="int"> SELECT COUNT(*) FROM MEMBER
+		WHERE EMAIL = #{email}
+	</select>
+
+	<select id="findId" resultType="string">
+		SELECT USER_ID
+		FROM MEMBER
+		WHERE
+		USER_NAME = #{userName}
+		AND SSN = #{ssn}
+	</select>
+
+	<update id="updatePassword">
+		UPDATE MEMBER
+		SET USER_PW = #{newPassword}
+		WHERE
+		USER_ID = #{userId}
+	</update>
+
+	<select id="findUserForPasswordReset" resultType="string">
+		SELECT USER_ID
+		FROM MEMBER
+		WHERE USER_NAME = #{userName}
+		AND SSN = #{ssn}
+		AND EMAIL =
+		#{email}
+		AND MEMBER_STATUS = 'Y'
+	</select>
+
+	<!-- <select id="selectOne" resultType="hashmap"> select user_id, user_name 
+		from member where user_id = #{userId} </select> -->
+</mapper>

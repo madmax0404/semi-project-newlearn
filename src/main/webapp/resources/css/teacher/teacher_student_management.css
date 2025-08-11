@@ -1,0 +1,80 @@
+.manage-button {
+    padding: 5px 10px;
+    background: #ddd;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.dropdown {
+    /* position: absolute; */
+    background: #222;
+    color: white;
+    border-radius: 5px;
+    display: none;
+    flex-direction: column;
+    width: 80px;
+    top: 30px;
+    right: 52px;
+    z-index: 100;
+}
+
+.dropdown div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown div:hover {
+    background: #444;
+}
+
+.dropdown.show {
+    display: flex;
+}
+
+#profilePopup {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    width: 300px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: auto;
+}
+
+.profile-name {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-email {
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.profile-buttons button {
+    margin: 5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid gray;
+}

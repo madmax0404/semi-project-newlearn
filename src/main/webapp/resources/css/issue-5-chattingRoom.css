@@ -1,0 +1,1022 @@
+@charset "UTF-8";
+/*
+    전체 설정
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+/* 전체 컨테이너 */
+#container {
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main {
+    display: flex;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* 채팅 영역 전체 */
+.chatting-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* 채팅 메시지 영역 */
+.chatting-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+}
+
+.chatting-main ul {
+    list-style: none;
+    margin: 0;
+    padding: 20px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 공지사항 */
+.chatting-notice-top {
+    background: #ffeaa7;
+    color: #2d3436;
+    padding: 12px 20px;
+    margin: 0 0 20px 0;
+    border-radius: 25px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(255, 234, 167, 0.3);
+}
+#notification img {
+    max-height: 300px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+}
+.chatting-notice-top:before {
+    /* content: '\f0a1'; 은성이의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    margin-right: 8px;
+}
+/* 채팅 메시지 공통 스타일 */
+.chatting-text {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-end;
+    animation: slideIn 0.3s ease-out;
+}
+.chatting-text img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* @keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} */
+
+/* 내 채팅 */
+.my-chat {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 20px 20px 5px 20px;
+    max-width: 70%;
+    margin-left: auto;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    position: relative;
+    justify-content: flex-end;
+    text-align: right;
+    object-fit: cover;
+    overflow: hidden;
+
+}
+
+.my-chat::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #764ba2;
+    transform: rotate(45deg);
+}
+
+/* 다른 사람 채팅 */
+.other-chat {
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.other-chat > img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    border: 2px solid #e9ecef;
+}
+
+.other-chat-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+
+.other-chat p:first-of-type {
+    color: #6c757d;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    padding-left: 4px;
+}
+
+.other-chat p:last-of-type {
+    background-color: #e9ecef;
+    color: #343a40;
+    padding: 12px 16px;
+    border-radius: 20px 20px 20px 5px;
+    margin: 0;
+    word-wrap: break-word;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.other-chat p:last-of-type:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #e9ecef;
+    transform: rotate(-45deg);
+}
+
+/* 이미지/파일 메시지 */
+.chatting-img-file {
+    background-color: #f1f3f4;
+    border: 2px dashed #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 15px;
+    max-width: 300px;
+    transition: all 0.3s ease;
+}
+
+.chatting-img-file:hover {
+    border-color: #667eea;
+    background-color: #f8f9ff;
+}
+
+.chatting-img-file:before {
+    content: '\f1c5';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+    color: #dee2e6;
+}
+
+/* 메시지 입력 영역 */
+.forwoard-main {
+    background-color: white;
+    border-top: 1px solid #e9ecef;
+    padding: 15px 20px;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.forward-text {
+    margin-bottom: 10px;
+}
+
+.forward-text textarea {
+    width: 100%;
+    min-height: 60px;
+    max-height: 120px;
+    border: 1px solid #ced4da;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    line-height: 1.4;
+}
+
+.forward-text textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.forward-text textarea::placeholder {
+    color: #adb5bd;
+}
+
+/* 하단 버튼 영역 */
+.forward-img-file {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    /* gap: 10px; */
+}
+
+.forward-img-file button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* .gallery {
+    background: linear-gradient(45deg, #fd79a8, #fdcb6e);
+    color: white;
+}
+
+.gallery:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(253, 121, 168, 0.3);
+}
+
+.gallery:before {
+    content: '\f03e'; 은성이의 똥코드 (문양 없애기) 
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+} */
+
+.forwoard-main .file {
+    background: #696cff;
+    color: white;
+    width: 70px;
+    justify-content: center;
+}
+
+.forwoard-main .file:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(116, 185, 255, 0.3);
+}
+
+.forwoard-main .file:before {
+    /* content: '\f15b'; 은성이의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.forwoard-main .search {
+    background: #b25fee;
+    color: white;
+    width: 70px;
+    justify-content: center;
+    margin-left: 2%;
+}
+
+.forwoard-main .search:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(162, 155, 254, 0.3);
+}
+
+.forwoard-main .search:before {
+    /* content: '\f002'; 은성이의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.forwoard-main .forward {
+    background: linear-gradient(45deg, #00b894, #00cec9);
+    color: white;
+    width: 70px;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: 0.5%;
+}
+
+.forwoard-main .forward:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+}
+
+.forwoard-main .forward:before {
+    /* content: '\f1d8'; 은성이의 똥코드 (문양 없애기) */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+/* 스크롤바 커스터마이징 */
+.chatting-main::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatting-main::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 3px;
+}
+
+.chatting-main::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #5a67d8, #6b46c1);
+}
+
+.chatting-main::-webkit-scrollbar-track {
+    background-color: #f1f3f4;
+    border-radius: 3px;
+}
+
+/* 반응형 디자인 */
+/* @media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+    
+    .chatting-area {
+        border-radius: 0;
+    }
+    
+    .my-chat:not(.chatting-img-file),
+    .other-chat-content {
+        max-width: 85%;
+    }
+    
+    .chatting-main ul {
+        padding: 15px;
+    }
+    
+    .forwoard-main {
+        padding: 12px;
+    }
+} */
+
+/* 타이핑 인디케이터 (선택사항) */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: #6c757d;
+    font-style: italic;
+    font-size: 0.8rem;
+}
+
+.typing-indicator:before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #6c757d;
+    margin-right: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/*
+    채팅방 설정 컨트롤러
+*/
+#set-room-controller{
+    width: 100px;
+    height: 80px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    /* top: 200px;
+     */
+    z-index: 999;
+}
+#set-room-controller .line{
+    margin: 2px;
+    border: 1px solid white;
+    width: 90px;
+}
+
+/*
+    채팅방 수정
+*/
+#container-fluid{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    /* z-index: 1050; */
+}
+#set-room-modal {
+	background: linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
+	border-radius: 15px;
+	padding: 20px;
+	max-width: 400px;
+	margin: 50px auto;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+	color: white;
+	position: fixed;
+    top: 30vh;
+    left: 50vw;
+}
+
+.modal-name {
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.modal-name::after {
+	position: absolute;
+	right: 0;
+	top: -5px;
+	font-size: 24px;
+	cursor: pointer;
+	color: white;
+	font-weight: normal;
+}
+
+.change-title {
+	font-size: 12px;
+	margin-bottom: 8px;
+	color: #333;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 5px 10px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+.input-change-title {
+	width: 100%;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+.change-open-close {
+	display: flex;
+	gap: 15px;
+	margin-bottom: 15px;
+}
+
+.choice-open-close {
+	flex: 1;
+}
+
+.open-close {
+	font-size: 12px;
+	margin-bottom: 8px;
+	color: #333;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 5px 10px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+.room-open, .room-close {
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+}
+
+.room-open input, .room-close input {
+	margin-left: 5px;
+}
+
+.change-password {
+	flex: 1;
+}
+
+.change-password>div {
+	font-size: 12px;
+	margin-bottom: 8px;
+	color: #333;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 5px 10px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+.input-change-password {
+	width: 100%;
+	padding: 8px 12px;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+.member-plus {
+	font-size: 12px;
+	margin-bottom: 8px;
+	color: #333;
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 5px 10px;
+	border-radius: 5px;
+	display: inline-block;
+}
+
+.search-name {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.search-name span {
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+.input-friend-name {
+	flex: 1;
+	padding: 6px 10px;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	background-color: rgba(255, 255, 255, 0.95);
+}
+
+.friend-list {
+	background-color: rgba(255, 255, 255, 0.95);
+	border-radius: 8px;
+	max-height: 200px;
+	overflow-y: auto;
+	margin-bottom: 15px;
+}
+
+.friend-choice ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.friend-inf-checkbox {
+	border-bottom: 1px solid #eee;
+}
+
+.friend-inf-checkbox:last-child {
+	border-bottom: none;
+}
+
+.friend-inf-checkbox label {
+	display: flex;
+	align-items: center;
+	padding: 12px;
+	margin: 0;
+	cursor: pointer;
+	color: #333;
+	transition: background-color 0.2s;
+}
+
+.friend-inf-checkbox label:hover {
+	background-color: #f8f9fa;
+}
+
+.friend-picture {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-color: #6c757d;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-size: 12px;
+	margin-right: 12px;
+	flex-shrink: 0;
+}
+
+.friend-name-ps {
+	flex: 1;
+	min-width: 0;
+}
+
+.friend-name {
+	font-size: 14px;
+	font-weight: 500;
+	margin-bottom: 2px;
+	color: #333;
+}
+
+.friend-ps {
+	font-size: 12px;
+	color: #6c757d;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.friend-inf-checkbox input[type="checkbox"] {
+	margin-left: auto;
+	transform: scale(1.2);
+}
+
+.go-back {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+}
+
+.go-back input[type="button"] {
+	padding: 8px 20px;
+	border: none;
+	border-radius: 5px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: opacity 0.2s;
+}
+
+.go-back input[value="취소"] {
+	background-color: rgba(255, 255, 255, 0.8);
+	color: #333;
+}
+
+.go-back input[value="확인"] {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #333;
+	font-weight: bold;
+}
+
+.go-back input[type="button"]:hover {
+	opacity: 0.8;
+}
+
+/* 스크롤바 스타일링 */
+.friend-list::-webkit-scrollbar {
+	width: 6px;
+}
+
+.friend-list::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 3px;
+}
+
+.friend-list::-webkit-scrollbar-thumb {
+	background: #c1c1c1;
+	border-radius: 3px;
+}
+
+.friend-list::-webkit-scrollbar-thumb:hover {
+	background: #a8a8a8;
+}
+
+/* 친구 프로필 이미지 색상 변경 */
+.friend-inf-checkbox:nth-child(1) .friend-picture {
+	background-color: #28a745;
+}
+
+.friend-inf-checkbox:nth-child(2) .friend-picture {
+	background-color: #007bff;
+}
+
+.friend-inf-checkbox:nth-child(3) .friend-picture {
+	background-color: #fd7e14;
+}
+
+.friend-inf-checkbox:nth-child(4) .friend-picture {
+	background-color: #343a40;
+}
+
+.friend-inf-checkbox:nth-child(5) .friend-picture {
+	background-color: #6f42c1;
+}
+/*
+    채팅방 신고
+*/
+/* 모달 오버레이 */
+.modal-overlay {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+/* 메인 모달 컨테이너 */
+#reportroom-modal {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    border-radius: 20px;
+    padding: 30px;
+    width: 400px;
+    max-width: 90vw;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 모달 제목 */
+.modal-name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: white;
+}
+
+/* 신고 사유 라벨 */
+.report-reason {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: white;
+}
+
+/* 사유 선택 영역 */
+.reasons {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+}
+
+/* 각 사유 항목 */
+.reasons > div:not(.reason-detail) {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px 0;
+}
+
+.reasons > div:not(.reason-detail):last-of-type {
+    margin-bottom: 15px;
+}
+
+/* 체크박스 스타일링 */
+.reasons input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #fff;
+}
+
+/* 체크박스 라벨 */
+.reasons span {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* 상세 사유 입력 영역 */
+.reason-detail {
+    margin-top: 15px;
+}
+
+.reason-detail textarea {
+    width: 100%;
+    height: 80px;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    resize: none;
+    outline: none;
+}
+
+.reason-detail textarea::placeholder {
+    color: #999;
+}
+
+.reason-detail textarea:focus {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+/* 버튼 영역 */
+.go-back {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.go-back input[type="button"] {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 80px;
+}
+
+/* 취소 버튼 */
+.go-back input[type="button"]:first-child {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.go-back input[type="button"]:first-child:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+/* 신고 버튼 */
+.go-back input[type="button"]:last-child {
+    background: #ff6b6b;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.go-back input[type="button"]:last-child:hover {
+    background: #ff5252;
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+    transform: translateY(-2px);
+}
+
+/* 반응형 디자인 */
+/* @media (max-width: 480px) {
+    #reportroom-modal {
+        width: 350px;
+        padding: 25px;
+    }
+    
+    .modal-name {
+        font-size: 20px;
+    }
+    
+    .go-back {
+        flex-direction: column;
+    }
+    
+    .go-back input[type="button"] {
+        width: 100%;
+    }
+} */
+/*
+    채팅 컨트롤러
+*/
+/*
+    내채팅
+*/
+#mychattingoption-controller{
+    width: 100px;
+    height: 110px;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#mychattingoption-controller .line{
+    margin: 2px;
+    width: 90px;
+    border: 1px solid white;
+}
+/*
+    남채팅
+*/
+#otherchattingoption-controller{
+    width: 100px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#otherchattingoption-controller div{
+
+}
+#otherchattingoption-controller .line{
+    margin: 2px;
+    width: 90px;
+    border: 1px solid white;
+}
+
+/*
+    이미지, 파일 채팅컨트롤러
+*/
+/*
+    내채팅
+*/
+#myimgfilechattingoption-controller{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#myimgfilechattingoption-controller div{
+
+}
+#myimgfilechattingoption-controller .line{
+    margin: 2px;
+    width: 90px;
+    border: 1px solid white;
+}
+/*
+    남채팅
+*/
+#otherimgfilechattingoption-controller{
+    width: 100px;
+    height: 133px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#otherimgfilechattingoption-controller div{
+
+}
+#otherimgfilechattingoption-controller .line{
+    margin: 2px;
+    width: 90px;
+    border: 1px solid white;
+}
+
+/*
+    공지 컨트롤러
+*/
+#chattingnotice-controller{
+    background-color: black;
+    color: white;
+    width: 100px;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 999;
+}
+#chattingnotice-controller div{
+    
+}
+#chattingnotice-controller .line{
+    margin: 2px;
+    width: 90px;
+    border: 1px solid white;
+}

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="assignmentSubmission">
+	 
+	<select id="getSubmissionByBoardNo" parameterType="int" resultType="assignmentSubmission">
+        SELECT * FROM assignment_submission
+        WHERE board_no = #{boardNo}
+    </select>
+	
+	<!-- 게시글 수정 -->
+    <update id="updateBoard" parameterType="board">
+        UPDATE board
+        SET 
+            board_title = #{boardTitle},
+            board_content = #{boardContent},
+            thumbnail = #{thumbnail},
+            update_date = SYSDATE
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <!-- 과제제출 정보 수정 -->
+    <update id="updateAssignmentSubmission" parameterType="assignmentSubmission">
+        UPDATE assignment_submission
+        SET
+            assignment_no = #{assignmentNo},
+            submission_date = #{submissionDate}
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <!-- 첨부파일 삭제 -->
+    <delete id="deleteFilesByRefBno" parameterType="int">
+        DELETE FROM board_file WHERE ref_bno = #{boardNo}
+    </delete>
+
+    <!-- 첨부파일 추가 -->
+    <insert id="insertBoardFile" parameterType="boardFile">
+        INSERT INTO board_file (
+            board_file_no, origin_name, change_name, ref_bno, file_level, file_type
+        ) VALUES (
+            seq_board_file_no.NEXTVAL, #{originName}, #{changeName}, #{refBno}, #{fileLevel}, #{fileType}
+        )
+    </insert>
+
+
+</mapper>

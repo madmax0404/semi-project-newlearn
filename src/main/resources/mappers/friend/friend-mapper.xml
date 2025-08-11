@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="friend">
+
+
+	<!-- 친구 전체 리스트 조회 (양방향 수락된 친구 관계) -->
+	<select id="FriendList" parameterType="int" resultType="member">
+		SELECT
+		m.USER_NO AS "userNo",
+		m.USER_NAME AS "userName",
+		m.USER_ID AS "userId",
+		m.USER_PW AS "userPwd",
+		m.EMAIL AS "email",
+		f.RESPONSE_DATE AS responseDate
+		FROM FRIEND f
+		JOIN MEMBER m ON m.USER_NO = f.FRIEND_USER_NO
+		WHERE f.USER_NO = #{userNo}
+		AND f.RESPONSE_STATUS = '수락'
+		AND f.HIDDEN = 'N'
+
+		<!-- UNION SELECT m.* FROM FRIEND f JOIN MEMBER m ON m.USER_NO = f.USER_NO 
+			WHERE f.FRIEND_USER_NO = #{userNo} AND f.RESPONSE_STATUS = '수락' -->
+
+	</select>
+
+	<select id="reFriendList" parameterType="int" resultType="map">
+		SELECT
+		m.USER_NO AS "userNo",
+		m.USER_NAME AS "userName",
+		m.USER_ID AS "userId",
+		m.USER_PW AS "userPwd",
+		m.EMAIL AS "email",
+		f.RESPONSE_DATE AS responseDate
+		FROM FRIEND f
+		JOIN MEMBER m ON m.USER_NO = f.FRIEND_USER_NO
+		WHERE f.USER_NO = #{userNo}
+		AND f.RESPONSE_STATUS = '수락'
+		AND f.HIDDEN = 'N'
+	</select>
+
+
+	<!-- 친구 요청 보내기 -->
+	<insert id="send" parameterType="map">
+		INSERT INTO FRIEND (USER_NO,
+		FRIEND_USER_NO, RESPONSE_STATUS, REQUEST_DATE)
+		VALUES (#{userNo},
+		#{friendUserNo}, '대기', SYSDATE)
+	</insert>
+
+	<!-- 친구 요청 수락 -->
+	<!-- <update id="accept" parameterType="map"> UPDATE FRIEND SET RESPONSE_STATUS 
+		= '수락' WHERE USER_NO = #{userNo} AND FRIEND_USER_NO = #{friendUserNo} </update> -->
+
+	<update id="updateAccept" parameterType="map">
+		UPDATE FRIEND
+		SET
+		RESPONSE_STATUS = '수락',
+		RESPONSE_DATE = SYSDATE
+		WHERE USER_NO =
+		#{userNo}
+		AND FRIEND_USER_NO = #{friendUserNo}
+	</update>
+
+	<insert id="insertAccept" parameterType="map">
+		INSERT INTO FRIEND (
+		USER_NO, FRIEND_USER_NO, RESPONSE_STATUS, REQUEST_DATE, RESPONSE_DATE,
+		FAVORITE, HIDDEN
+		)
+		SELECT #{friendUserNo}, #{userNo}, '수락', SYSDATE,
+		SYSDATE, 'N', 'N'
+		FROM DUAL
+		WHERE NOT EXISTS (
+		SELECT 1 FROM FRIEND
+		WHERE
+		USER_NO = #{friendUserNo} AND FRIEND_USER_NO = #{userNo}
+		)
+	</insert>
+
+
+
+
+
+
+	<!-- 친구 요청 거절 -->
+	<delete id="reject" parameterType="map">
+		DELETE FROM FRIEND
+		WHERE
+		USER_NO = #{userNo}
+		AND FRIEND_USER_NO = #{friendUserNo}
+		AND
+		RESPONSE_STATUS = '대기'
+	</delete>
+
+
+	<!-- 친구 삭제 -->
+	<delete id="deleteFriend" parameterType="map">
+		DELETE FROM FRIEND
+		WHERE
+		USER_NO = #{userNo}
+		AND FRIEND_USER_NO = #{friendUserNo}
+	</delete>
+
+
+
+	<!-- 친구 요청 받은 목록 조회 -->
+	<select id="requestList" resultType="member">
+		SELECT M.*
+		FROM FRIEND F
+		JOIN
+		MEMBER M ON M.USER_NO = F.USER_NO
+		WHERE F.FRIEND_USER_NO = #{userNo}
+		AND F.RESPONSE_STATUS = '대기'
+	</select>
+
+	
+
+	
+
+	<!-- 즐겨찾기 리스트 -->
+	<select id="favList" parameterType="int" resultType="member">
+		SELECT
+		M.*
+		FROM FRIEND F
+		JOIN MEMBER M ON M.USER_NO = F.FRIEND_USER_NO
+		WHERE
+		F.USER_NO = #{userNo}
+		AND F.FAVORITE = 'Y'
+	</select>
+
+	<!-- 친구 숨기기 -->
+	<update id="hide" parameterType="map">
+		UPDATE FRIEND
+		SET HIDDEN =
+		CASE
+		WHEN HIDDEN = 'Y' THEN 'N' ELSE 'Y' END
+		WHERE USER_NO = #{userNo}
+		AND
+		FRIEND_USER_NO = #{friendUserNo}
+	</update>
+
+	<select id="selectHide" parameterType="map" resultType="string">
+		SELECT
+		HIDDEN
+		FROM FRIEND
+		WHERE USER_NO = #{userNo} AND FRIEND_USER_NO =
+		#{friendUserNo}
+	</select>
+
+	<!-- 숨긴 친구 목록 -->
+	<select id="hideList" resultType="member" parameterType="int">
+		SELECT
+		M.*
+		FROM FRIEND F
+		JOIN MEMBER M ON M.USER_NO = F.FRIEND_USER_NO
+		WHERE
+		F.USER_NO = #{userNo}
+		AND F.RESPONSE_STATUS = '수락'
+		AND F.HIDDEN = 'Y'
+	</select>
+
+	<!-- 즐겨찾기 -->
+	<update id="favorite" parameterType="map">
+		UPDATE FRIEND
+		SET FAVORITE =
+		CASE
+		WHEN FAVORITE = 'Y' THEN 'N' ELSE 'Y' END
+		WHERE USER_NO = #{userNo}
+		AND
+		FRIEND_USER_NO = #{friendUserNo}
+	</update>
+
+	<select id="selectFav" parameterType="map" resultType="string">
+		SELECT
+		FAVORITE
+		FROM FRIEND
+		WHERE USER_NO = #{userNo} AND FRIEND_USER_NO =
+		#{friendUserNo}
+	</select>
+
+
+	<!-- 유저 검색 -->
+
+	<select id="serchMember" resultType="member">
+		SELECT
+		USER_NO,
+		USER_NAME,
+		EMAIL
+		FROM MEMBER
+		WHERE MEMBER_STATUS = 'Y'
+		AND USER_NO != #{userNo}
+		AND (
+		USER_NAME LIKE '%' || #{keyword} || '%'
+		OR EMAIL LIKE '%' ||
+		#{keyword}
+		|| '%'
+		)
+
+
+	</select>
+
+
+
+
+
+</mapper>

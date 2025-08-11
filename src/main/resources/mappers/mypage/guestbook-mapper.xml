@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guestbook">
+	<select id="loadGuestbook" resultType="guestbook">
+    SELECT *
+	    FROM (
+	        SELECT ROWNUM AS rnum, gb.*
+	        FROM (
+	            SELECT 
+	                guestbook_no, content, create_date, user_name, user_no, mypage_no
+	            FROM guest_book
+	            JOIN member USING(user_no)
+	            WHERE mypage_no = #{mypageNo}
+	              	AND visibility = #{visibility}
+	              	AND deleted = 'N'
+	            ORDER BY create_date DESC
+	        ) gb
+	        WHERE ROWNUM <![CDATA[<=]]> #{offset} + #{limit}
+	    )
+	    WHERE rnum > #{offset}
+	</select>
+	
+	<select id="guestbookCnt" resultType="int">
+		select count(*) from guest_book
+		where mypage_no = #{mypageNo}
+			and visibility = #{visibility}
+			and deleted = 'N'
+	</select>
+	
+	<update id="guestbookHide">
+		update guest_book
+		set visibility = 'N'
+		where guestbook_no = #{guestbookNo}
+	</update>
+	
+	<update id="guestbookDelete">
+		update guest_book
+		set deleted = 'Y'
+		where guestbook_no = #{guestbookNo}
+	</update>
+	
+	<insert id="guestbookInsert">
+		insert into guest_book values
+		(seq_guestbook_no.nextval, #{mypageNo}, #{userNo}, #{content}, sysdate, 'Y', 'N')
+	</insert>
+</mapper>

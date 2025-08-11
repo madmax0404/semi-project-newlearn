@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chattingRoomList</title>
+    <link rel="stylesheet" href="/page/css/chattingRoomList.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/page/js/chattingRoomList.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="top">
+            <div class="top-logo">new Learn();</div>
+            <div class="top-title">KH 자바스터디 G반</div>
+            <div class="top-back"><button class="header-back-button">X</button></div>
+        </div>
+        <div id="mid">
+            <div id="friend">
+                <div id="friend-top">
+                    <div>친구목록</div>
+                    <div>(${fn:length(friendList)}명)</div>
+                    <button>채팅방 만들기</button>
+                </div>
+                <div id="friend-mid">
+                    <c:choose>
+                        <c:when test="${empty friendList}">
+                            <ul>
+                                <li>친구가 없습니다.</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul>
+                                <c:forEach items="${friendList}" var="friend">
+                                    <li class="friend-inf" data-user-no="${friend.userNo}">
+                                        <div class="friend-picture">${friend.changeName}</div>
+                                        <div class="friend-name-ps">
+                                            <div class="friend-name">${friend.userName}</div>
+                                            <div class="friend-ps">${friend.statusMessage }</div>
+                                        </div>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div id="room-list">
+                <div id="room-list-top">
+                    <div>채팅방 목록</div>
+                </div>
+                <div id="room-list-sub">
+                    <ul>
+                        <li>방 제목</li>
+                        <li>개설자</li>
+                        <li>참여자 수</li>
+                        <li>공개여부</li>
+                        <li>알림</li>
+                        <li>설정</li>
+                    </ul>
+                </div>
+                <div id="room-list-mid">
+                    <c:choose>
+                        <c:when test="${empty chattingRoomList}">
+                            <ul>
+                                <li>채팅방이 없습니다.</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul>
+                                <c:forEach items="${chattingRoomList}" var="chattingRoom">
+                                    <li>
+                                        <div class="creater-picture">${chattingRoom.changeName}</div>
+                                        <div class="room-title">${chattingRoom.chatTitle}</div>
+                                        <div class="creater-name">${chattingRoom.userName}</div>
+                                        <div class="member-count">${chattingRoom.participantCount}</div>
+                                        <div class="open-close">${chattingRoom.chatPublic}</div>
+                                        <button class="room-alarm-button">알림</button> 
+                                        <button class="room-set-btn">설정</button>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                <div id="room-list-bottom">
+                    <form action="" method="get">
+                        <select class="search-type" name="searchType">
+                            <option value="title">제목</option>
+                            <option value="member">참여자</option>
+                        </select>
+                        <input class="keyword" type="search" name="keyword">
+                        <input class="search" type="submit" name="search" value="검색">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="create-room-modal">
+        <form action="/chat/createRoom" method="post" id="create-room-form">
+            <div class="modal-name"><span>채팅방 만들기</span></div>
+            <div class="room-title" >방 제목 입력</div>
+            <input type="text" name="chatTitle" class="input-room-title">
+            <div class="open-close-password">
+                <div class="open-close">
+                    <div class="choice-open-close">공개 여부</div>
+                    <span class="open-room">공개<input type="radio" name="public-radio" class="open-radio" value="Y" checked></span>
+                    <span class="close-room">비공개<input type="radio" name="public-radio" class="close-radio" value="N"></span>
+                </div>
+                <div class="password"> <div>비밀번호</div>
+                    <input type="password" name="chatPw" class="input-room-password">
+                </div>
+            </div>
+            <div class="member-plus">대화 상대 초대</div>
+            <div class="search-name">
+                <span>이름 검색</span><input type="text" name="searchFriend" class="input-friend-name">
+            </div>
+            <div class="friend-list">
+                <div class="friend-choice">
+                    <c:choose>
+                        <c:when test="${empty friendList}">
+                            <ul>
+                                <li>친구가 없습니다.</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul>
+                                <c:forEach items="${friendList}" var="friend">
+                                    <li class="friend-inf-checkbox" data-user-no="${friend.userNo}"> <label for="select-friend-${friend.userNo}" style="display:flex; align-items:center; cursor:pointer; flex-grow:1; justify-content:space-between; width:100%;">
+                                            <div class="friend-picture">${friend.changeName}</div>
+                                            <div class="friend-name-ps">
+                                                <div class="friend-name">${friend.userName}</div>
+                                                <div class="friend-ps">${friend.statusMessage}</div>
+                                            </div>
+                                            <input type="checkbox" name="selectFriendList" value="${friend.userNo}" id="select-friend-${friend.userNo}"> </label>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="go-back">
+                <input type="button" value="취소">
+                <input type="button" value="확인" class="create-room-btn">
+            </div>
+        </form>
+    </div>
+
+    <div id="friend-profile-modal">
+        <div class="profile-picture">사진</div>
+        <div class="profile-name">이름</div>
+        <div class="profile-ps">상태메세지</div>
+        <div class="profile-option">
+            <div class="option1"><button class="button1">함께하는 클래스 2개</button></div>
+            <div class="option2"><button class="button2">1:1 채팅</button></div>
+        </div>
+        <div class="back"><button class="button3">닫기</button></div>
+    </div>
+    <div id="together-class">
+        <ul>
+            <li>
+                <div>백엔드클래스</div>
+                <div class="line"></div>
+            </li>
+            <li>
+                <div>프론트엔드클래스</div>
+                <div class="line"></div>
+            </li>
+        </ul>
+    </div>
+    
+    <div id="set-room-controller">
+        <div class="set-room">설정</div>
+        <div class="line"></div>
+        <div class="exit-room">나가기</div>
+        <div class="line"></div>
+        <div class="report-room">신고</div>
+    </div>
+
+    <div id="set-room-modal-creater">
+        <div class="modal-name">채팅방 설정</div>
+        <div class="change-title">방 제목 변경</div>
+        <input type="text" name="chatTitle" class="input-change-title"> <div class="change-open-close">
+            <div class="choice-open-close">
+                <div class="open-close">공개 여부</div>
+                <span class="room-open">공개<input type="radio" name="chatPublic" class="radioPublicY" value="Y" checked></span>
+                <span class="room-close">비공개<input type="radio" name="chatPublic" class="radioPublicN" value="N"></span>
+            </div>
+            <div class="change-passwoard" id="chatPwGroup"> <div>비밀번호</div>
+                <input type="password" name="chatPw" class="input-change-password">
+            </div>
+        </div>
+        <div class="member-plus">대화 상대 초대</div>
+        <div class="search-name">
+            <span>이름 검색</span><input type="text" name="searchFriend" class="input-friend-name">
+        </div>
+            <div class="friend-list">
+                <div class="friend-choice">
+                    <c:choose>
+                        <c:when test="${empty friendList}">
+                            <ul>
+                                <li>친구가 없습니다.</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul>
+                                <c:forEach items="${friendList}" var="friend">
+                                    <li class="friend-inf-checkbox" data-user-no="${friend.userNo}"> <label for="selectFriend-${friend.userNo}" style="display:flex; align-items:center; cursor:pointer; flex-grow:1; justify-content:space-between; width:100%;">
+                                            <div class="friend-picture">${friend.changeName}</div>
+                                            <div class="friend-name-ps">
+                                                <div class="friend-name">${friend.userName}</div>
+                                                <div class="friend-ps">${friend.statusMessage}</div>
+                                            </div>
+                                            <input type="checkbox" name="selectFriendList" value="${friend.userNo}" id="selectFriend_${friend.userNo}"> </label>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="go-back">
+                <input type="button" value="취소">
+                <input type="button" value="확인" class="set-room-btn">
+            </div>
+        </div>
+    </div>
+    <div id="set-room-modal-member">
+        <div class="modal-name">채팅방 설정</div>
+        <div class="change-title">방 제목 변경</div>
+        <input type="text" name="chatTitle" class="input-change-title"> <div class="member-plus">대화 상대 초대</div>
+        <div class="search-name">
+            <span>이름 검색</span><input type="text" name="searchFriend" class="input-friend-name">
+        </div>
+            <div class="friend-list">
+                <div class="friend-choice">
+                    <c:choose>
+                        <c:when test="${empty friendList}">
+                            <ul>
+                                <li>친구가 없습니다.</li>
+                            </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul>
+                                <c:forEach items="${friendList}" var="friend">
+                                    <li class="friend-inf-checkbox" data-user-no="${friend.userNo}"> <label for="selectFriendMember-${friend.userNo}" style="display:flex; align-items:center; cursor:pointer; flex-grow:1; justify-content:space-between; width:100%;">
+                                            <div class="friend-picture">${friend.changeName}</div>
+                                            <div class="friend-name-ps">
+                                                <div class="friend-name">${friend.userName}</div>
+                                                <div class="friend-ps">${friend.statusMessage}</div>
+                                            </div>
+                                            <input type="checkbox" name="selectFriendList" value="${friend.userNo}" id="selectFriendMember_${friend.userNo}"> </label>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+            <div class="go-back">
+                <input type="button" value="취소">
+                <input type="button" value="확인">
+            </div>
+        </div>
+    </div>
+
+    <div id="report-room-modal">
+        <div class="modal-name">채팅방 신고</div>
+        <div class="report-reason">신고 사유</div>
+        <div class="reasons">
+            <div class="reason1"><input type="checkbox" name="reportReason" value="abuse"><span>욕설/공격젹인 언어 사용</span></div> <div class="reason2"><input type="checkbox" name="reportReason" value="hate_speech"><span>혐오발언</span></div> <div class="reason3"><input type="checkbox" name="reportReason" value="obscenity"><span>음란물 유포</span></div> <div class="reason4"><input type="checkbox" name="reportReason" value="illegal_info"><span>불법 정보(도박/사행성)</span></div> <div class="reason5"><input type="checkbox" name="reportReason" value="etc"><span>기타</span></div> <div class="reason-detail"><textarea placeholder="신고 사유" name="reportDetail"></textarea></div> </div>
+        <div class="go-back">
+            <input type="button" value="닫기">
+            <input type="button" value="신고">
+        </div>
+    </div>
+</body>
+</html>

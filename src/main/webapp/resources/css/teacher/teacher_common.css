@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    /* background: #e5e5e5; */
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    height: auto;
+}
+
+.content {
+    /* background: white; */
+    margin: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+h1 {
+    align-self: center;
+}
+
+/* table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #aaa;
+}
+
+th {
+    background: #f9f9f9;
+    font-weight: bold;
+} */

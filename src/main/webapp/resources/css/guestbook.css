@@ -1,0 +1,78 @@
+.guestbook-entry {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.guestbook-entry:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.guestbook-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.guestbook-table th,
+.guestbook-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.guestbook-table th {
+    background-color: #e6f0ff;
+    font-weight: bold;
+}
+
+.guestbook-table td[colspan="6"] {
+    padding-top: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.guestbook-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px; /* 버튼 사이 간격 */
+    flex-wrap: wrap; /* 공간 부족시 줄바꿈 */
+}
+
+.guestbook-buttons form {
+    margin: 0; /* form 기본 마진 제거 */
+}
+
+.guestbook-buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: none;
+    background-color: #337ab7;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.guestbook-buttons button:hover {
+    background-color: #23527c;
+}
+
+
+.write-button {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.write-button:hover {
+    background-color: #218838;
+}

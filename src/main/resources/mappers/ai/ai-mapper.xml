@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ai">
+	<select id="getAiList" resultType="ai">
+		select * from ai
+	</select>
+	
+	<select id="checkUsedBefore" resultType="int">
+		select count(*) from ai_usage
+		where user_no = #{userNo} and model_no = #{modelNo}
+	</select>
+	
+	<select id="getAiChatSessionsList" resultType="aiChatSession">
+		select * from ai_chat_session
+		where user_no = #{userNo}
+		order by last_used_at desc
+	</select>
+	
+	<update id="updateAiUsage">
+		update ai_usage
+		set last_used_at = sysdate, num_used_tokens = num_used_tokens + #{tokensUsed}
+		where user_no = #{userNo} and model_no = #{modelNo}
+	</update>
+	
+	<insert id="insertAiUsage">
+		insert into ai_usage(ai_usage_no, user_no, model_no, created_at, last_used_at, num_used_tokens)
+		values(seq_ai_usage.nextval ,#{userNo}, #{modelNo}, sysdate, sysdate, #{tokensUsed})
+	</insert>
+	
+	<insert id="createChatSesion">
+		<selectKey keyProperty="sessionNo" resultType="int" order="BEFORE">
+			select seq_ai_chat_session.nextval from dual
+		</selectKey>
+	
+		insert into ai_chat_session(session_no, created_at, user_no, model_no, last_used_at)
+		values(#{sessionNo}, sysdate, #{userNo}, #{modelNo}, sysdate)
+	</insert>
+	
+	<update id="updateChatSession">
+		update ai_chat_session
+		<set>
+			<if test="title != null">
+				title = #{title},
+			</if>
+			last_used_at = sysdate
+		</set>
+		where session_no = #{sessionNo}
+	</update>
+	
+	<insert id="insertAiChatHistoryUser">
+		insert into ai_chat_history
+		values(seq_ai_chat_history.nextval, #{userNo}, #{sessionNo}, 'user', #{user}, sysdate)
+	</insert>
+	
+	<insert id="insertAiChatHistoryAssistant">
+		insert into ai_chat_history
+		values(seq_ai_chat_history.nextval, #{userNo}, #{sessionNo}, 'assistant', #{assistant}, sysdate)
+	</insert>
+	
+	<select id="getChatHistory" resultType="aiChatHistory">
+		select * from ai_chat_history
+		where session_no = #{sessionNo}
+		order by created_date
+	</select>
+	
+	<delete id="sessionDelete">
+		delete from ai_chat_session
+		where session_no = #{sessionNo}
+	</delete>
+</mapper>
+
+
+
+

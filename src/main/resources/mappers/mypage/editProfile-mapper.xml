@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="editProfile">	
+	<update id="editProfileMember">
+	    update member
+	    set user_id = #{userId}, user_pw = #{userPwd}, user_name = #{userName}, email = #{email}, phone = #{phone}
+	    where user_no = #{userNo}
+	</update>
+	
+	<update id="editProfileMypage">
+	    update mypage
+	    set mypage_name = #{mypageName}, STATUS_MESSAGE = #{statusMessage}
+	    where MYPAGE_NO = #{mypageNo}
+	</update>
+</mapper>

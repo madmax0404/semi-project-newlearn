@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="teacher">
+	<select id="getStudentList" resultType="student">
+		select user_no, user_name, user_id, email, class_join_date, member_status
+		from class_join join member using (user_no)
+		where class_no = #{classNo} and class_role = 'student'
+	</select>
+	
+	<select id="getAttList" resultType="teacherAttendance">
+		select att_no, user_no, user_name, entry_time, exit_time, att_status, note
+		from attendance join member using (user_no)
+		where class_no = #{classNo} and trunc(entry_time) = #{selectedDate}
+	</select>
+	
+	<update id="attendanceUpdate">
+		update attendance
+		set att_status = #{attStatusForUpdate}
+		where att_no = #{attNo}
+	</update>
+	
+	<update id="attendanceNoteUpdate">
+		update attendance
+		set note = #{note}
+		where att_no = #{attNo}
+	</update>
+	
+	<delete id="studentKick">
+		delete from class_join
+		where user_no = #{userNo} and class_no = #{classNo}
+	</delete>
+	
+	<select id="getAssignmentList" resultType="teacherAssignment">
+		select assignment_no, assignment_title, assignment_details, create_date, start_date, end_date
+		from assignment
+		where class_no = #{classNo} and deleted = 'N'
+	</select>
+	
+	<insert id="insertAssignment">
+		<selectKey keyProperty="assignmentNo" resultType="int" order="BEFORE">
+			select seq_assignment.nextval from dual
+		</selectKey>
+		
+		insert into assignment(assignment_no, class_no, assignment_title, assignment_details, start_date, end_date)
+		values(#{assignmentNo}, #{classNo}, #{assignmentTitle}, #{assignmentDetails}, #{startDate}, #{endDate})
+	</insert>
+	
+	<insert id="uploadFile">
+		<selectKey keyProperty="fileNo" resultType="int" order="BEFORE">
+			select seq_file_no.nextval from dual
+		</selectKey>
+		
+		insert into upload_file(file_no, origin_name, change_name, file_size, source, source_no, user_no)
+		values(#{fileNo}, #{originName}, #{changeName}, #{fileSize}, #{source}, #{sourceNo}, #{userNo})
+	</insert>
+	
+	<update id="updateAssignment">
+		update assignment
+		<set>
+			assignment_title = #{assignmentTitle},
+			assignment_details = #{assignmentDetails},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			<if test="fileNo != 0">
+				file_no = #{fileNo},
+			</if>
+			<if test="fileNo == 0">
+				file_no = (null),
+			</if>
+		</set>
+		where assignment_no = #{assignmentNo}
+	</update>
+	
+	<update id="deleteAssignment">
+		update assignment
+		set deleted = 'Y'
+		where assignment_no = #{assignmentNo}
+	</update>
+	
+	<select id="getAssignment" resultType="teacherAssignment">
+		select assignment_no, class_no, assignment_title, assignment_details, create_date, start_date, end_date, file_no
+		from assignment
+		where assignment_no = #{assignmentNo} and deleted = 'N'
+	</select>
+	
+	<update id="updateEntryCode">
+		update class
+		<set>
+			entry_code = #{entryCode}
+		</set>
+		where class_no = #{classNo}
+	</update>
+	
+	<update id="updateClassName">
+		update class
+		<set>
+			class_name = #{className}
+		</set>
+		where class_no = #{classNo}
+	</update>
+	
+	<select id="getTeacherClass" resultType="teacherClass">
+		select class_no, class_name, teacher_no, entry_code, create_date, class_code
+		from class
+		where class_no = #{classNo}
+	</select>
+	
+	<update id="updateClassCode">
+		update class
+		<set>
+			class_code = #{classCode}
+		</set>
+		where class_no = #{classNo}
+	</update>
+	
+	<select id="getReportList" resultType="teacherReport">
+		select
+			r.report_no,
+			r.user_no as reporter_user_no,
+			m1.user_name as reporter_user_name,
+			b.user_no as reported_user_no,
+			m2.user_name as reported_user_name,
+			r.report_type,
+			r.ref_no,
+			r.report_content,
+			r.report_time,
+			r.report_status,
+			r.link
+		from report r
+		join member m1 on r.user_no = m1.user_no
+		join board b on r.ref_no = b.board_no
+		join member m2 on b.user_no = m2.user_no
+		where r.report_type = 'BOARD' and r.class_no = #{classNo}
+		
+		union all
+		
+		select
+			r.report_no,
+			r.user_no as reporter_user_no,
+			m1.user_name as reporter_user_name,
+			re.user_no as reported_user_no,
+			m2.user_name as reported_user_name,
+			r.report_type,
+			r.ref_no,
+			r.report_content,
+			r.report_time,
+			r.report_status,
+			r.link
+		from report r
+		join member m1 on r.user_no = m1.user_no
+		join reply re on r.ref_no = re.reply_no
+		join member m2 on re.user_no = m2.user_no
+		where r.report_type = 'REPLY' and r.class_no = #{classNo}
+		
+		order by report_time
+	</select>
+	
+	<update id="updateReportStatus">
+		update report
+		set report_status = #{reportStatus}
+		where report_no = #{reportNo}
+	</update>
+	
+	<select id="getTeacherUploadFile" resultType="teacherUploadFile">
+		select * from upload_file
+		where file_no = #{fileNo}
+	</select>
+</mapper>
+
+
+
+

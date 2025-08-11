@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="event">
+	<select id="getSubscription" resultType="int">
+		select event_no from event_join_member
+		where user_no = #{userNo}
+	</select>
+
+	<select id="findAllByDate" resultType="event">
+		select * from calendar
+		join member using(user_no)
+		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and class_no = #{classNo}
+			and event_type = 'SHARED'
+	</select>
+	
+	<select id="upcomingEvents" resultType="event">
+		select * from (
+			select * from calendar
+			join member using(user_no)
+			where start_date >= sysdate
+				and class_no = #{classNo}
+				and event_type = 'SHARED'
+			order by start_date
+		) where rownum <![CDATA[<=]]> 3
+	</select>
+	
+	<select id="findByNo" resultType="event">
+		select * from calendar
+		where event_no = #{eventNo}
+	</select>
+	
+	<select id="findAllPersonalByClass" resultType="event">
+		select * from calendar
+		join member using (user_no)
+		join class_join using (user_no)
+		where class_join.class_no = #{classNo}
+			and trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and event_type = 'PERSONAL'
+			and visibility = 'Y'
+	</select>
+	
+ 	<select id="findPublicPersonal" resultType="event">
+		select * from calendar
+		where user_no = #{mypageNo}
+			and trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and event_type = 'PERSONAL'
+			and visibility = 'Y'
+		order by start_date
+	</select>
+	
+	<select id="findPrivatePersonal" resultType="event">
+		select * from calendar
+		where user_no = #{mypageNo}
+			and trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and event_type = 'PERSONAL'
+			and visibility = 'N'
+		order by start_date
+	</select>
+	
+	<select id="joinMemberCnt" resultType="int">
+		select count(*) from event_join_member
+		where event_no = #{eventNo}
+	</select>
+	
+	<insert id="insertEvent">
+		<selectKey keyProperty="eventNo" resultType="int" order="BEFORE">
+			select seq_event_no.nextval from dual
+		</selectKey>
+		insert into calendar values
+		(#{eventNo}, #{classNo}, #{userNo}, #{eventName}, #{startDate}, #{endDate}, 
+		#{content}, #{place}, sysdate, #{eventType}, 'Y', #{numPpl}, #{joinDeadline})
+	</insert>
+	
+	<insert id="insertEventJoin">
+		insert into event_join_member values
+		(#{userNo}, #{eventNo}, sysdate, seq_event_join_member.nextval)
+	</insert>
+	
+	<update id="updateEvent">
+		update calendar set
+			event_name = #{eventName},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			content = #{content},
+			place = #{place},
+			num_ppl = #{numPpl},
+			join_deadline = #{joinDeadline},
+			visibility = #{visibility}
+		where event_no = #{eventNo}
+	</update>
+	
+	<delete id="deleteEvent">
+		delete from calendar
+		where event_no = #{eventNo}
+	</delete>
+	
+	<delete id="exitEvent">
+		delete from event_join_member
+		where event_no = #{eventNo}
+			and user_no = #{userNo}
+	</delete>
+	
+	<select id="getEventCnt" resultType="map">
+		select count(*) as "cnt", to_char(trunc(start_date), 'FMYYYY-MM-DD') as "startDate" 
+		from calendar
+        join class_join using (user_no)
+		where class_join.class_no = #{classNo}
+			and event_type = #{eventType}
+            and to_char(start_date, 'YYYY-FMMM') = to_char(sysdate, 'YYYY-FMMM')
+            and visibility = 'Y'
+		group by trunc(start_date)
+	</select>
+</mapper>

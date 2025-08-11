@@ -1,0 +1,88 @@
+.storage-main-body {
+	font-size: 16px;
+	color: #2f3640;
+	margin-bottom: 20px;
+}
+
+.file-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* 버튼 그룹이 오른쪽에 붙게 하려면 사용 */
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	font-size: 14px;
+	color: #353b48;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.file-item span {
+	margin-right: 20px;
+	white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+	flex-grow: 1; /* 텍스트 영역이 남는 공간 채우도록 */
+}
+
+.button-group {
+	display: flex;
+	gap: 8px; /* 버튼 사이 여백 */
+}
+
+/* 새 폴더 생성 버튼 */
+.storage-main-body button {
+	display: inline-block;
+	padding: 10px 16px;
+	background-color: #44bd32;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	font-weight: bold;
+	cursor: pointer;
+	margin: 20px 0;
+	transition: background-color 0.3s;
+}
+
+.storage-main-body button:hover {
+	background-color: #4cd137;
+}
+
+/* 업로드 폼 영역 */
+.upload-file {
+	background-color: #f5f6fa;
+	border: 1px dashed #aaa;
+	padding: 20px;
+	border-radius: 8px;
+	margin-top: 20px;
+}
+
+.upload-file label {
+	font-weight: bold;
+	margin-right: 10px;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.upload-file input[type="file"] {
+	padding: 8px;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 15px;
+	width: 100%;
+	font-size: 14px;
+}
+
+.upload-file button[type="submit"] {
+	background-color: #40739e;
+	color: white;
+	border: none;
+	padding: 10px 15px;
+	border-radius: 5px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.upload-file button[type="submit"]:hover {
+	background-color: #273c75;
+}

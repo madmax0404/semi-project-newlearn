@@ -1,0 +1,399 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    background: #F0F2F5;
+    color: #333;
+}
+
+.content {
+    display: flex;
+    max-width: 100%;
+    margin: 40px auto;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* 왼쪽 사이드바 */
+.left-side {
+    flex: 0 0 20%;
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* 프로필 */
+.profile h1 {
+    font-size: 24px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.profile h4 {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+/* 공통 버튼 스타일: editProfileBtn, openJoin, open-modal-btn */
+#editProfileBtn,
+#openJoin,
+#open-modal-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+#editProfileBtn:hover,
+#openJoin:hover,
+#open-modal-btn:hover {
+    background-color: #0056B3;
+}
+
+/* 클래스룸 리스트 */
+.classroom-list h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #007BFF;
+    padding-bottom: 5px;
+}
+
+.classroom-list p {
+    background-color: #EEF3FF;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.classroom-list button {
+    background-color: #F44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 8px;
+}
+
+.classroom-list button.go-to-class-btn {
+    background-color: #28A745;
+    height: 30px;
+}
+
+.classroom-list button.exit-class-btn {
+    background-color: #F44336;
+    height: 30px;
+}
+
+.classroom-list-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.class-name {
+    display: inline-block;
+    width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 알림 설정 버튼 */
+.left-side > button {
+    margin-top: auto;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.left-side > button:hover {
+    background-color: #666;
+}
+
+/* 메인 바디 */
+.main-body {
+    flex: 0 0 70%;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.sliders-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.slider {
+    position: relative;
+    justify-content: center;
+    width: 300px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.slider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 탭 버튼 */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-buttons button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.tab-buttons button:hover {
+    background-color: #0056B3;
+}
+
+/* 모달 */
+.mymodal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.classroom-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #EEF3FF;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.classroom-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.classroom-btn-group button,
+.classroom-btn-group form button {
+    font-size: 12px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* 클래스 생성/참가 버튼 그룹 */
+.classroom-action-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+/* 참가 버튼 (deprecated – ID로 관리하도록 바뀜) */
+.join-class-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.join-class-btn:hover {
+    background-color: #0056B3;
+}
+
+/* 클래스 생성 버튼 (classCreateModal 내부에서 사용하는 경우) */
+.class-create-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: 500;
+}
+
+.class-create-button:hover {
+    background-color: #0056B3;
+}
+
+/* 모달 배경 */
+.modal-bg {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-bg.active {
+    display: flex;
+}
+
+/* 모달 박스 */
+.modal-box {
+    background: #fff;
+    padding: 32px 24px 24px 24px;
+    border-radius: 18px;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.16);
+    min-width: 340px;
+    max-width: 90vw;
+    animation: modalShow 0.24s cubic-bezier(0.55, 0.11, 0.4, 0.94);
+}
+
+@keyframes modalShow {
+    0% {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #2062bf;
+    letter-spacing: 0.5px;
+}
+
+.modal-form label {
+    display: block;
+    margin: 14px 0 3px 2px;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.modal-form input {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 1.08em;
+    border-radius: 8px;
+    border: 1.5px solid #dde3ef;
+    margin-bottom: 6px;
+    transition: border 0.2s;
+}
+
+.modal-form input:focus {
+    border-color: #2062bf
+}
+
+#newImgUpload, #confirmBtn {
+    width: 60px;
+    height: 40px;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 30px;
+    text-align: center;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 알림설정 모달 내부 간격 단일화 */
+/* #notiSettingModal .modal-content label {
+  display: block;         줄바꿈 역할을 label이 담당
+  margin: 6px 0;          클래스룸 알림설정과 동일 간격
+  line-height: 1.2;
+}
+#notiSettingModal .modal-content br {
+  display: none;          <br>가 만들던 여백 제거
+} */
+
+/* 페이징 */
+.pagination {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    gap: 5px;
+    margin-top: 30px;
+}
+
+.pagination li {
+    display: inline;
+}
+
+.pagination .page-link {
+    display: block;
+    padding: 6px 12px;
+    background-color: #f1f2f6;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #273c75;
+    color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
